@@ -1,0 +1,10 @@
+io/github/cardsandhuskers/teams/objects/Menu.class
+io/github/cardsandhuskers/teams/objects/Team.class
+io/github/cardsandhuskers/teams/commands/UnlockTeamsCommand.class
+io/github/cardsandhuskers/teams/listeners/InventoryCloseListener.class
+io/github/cardsandhuskers/teams/handlers/TeamHandler.class
+io/github/cardsandhuskers/teams/commands/LockTeamsCommand.class
+io/github/cardsandhuskers/teams/listeners/TeamMenuListener$1.class
+io/github/cardsandhuskers/teams/Teams.class
+io/github/cardsandhuskers/teams/commands/TeamCommand.class
+io/github/cardsandhuskers/teams/listeners/TeamMenuListener.class
