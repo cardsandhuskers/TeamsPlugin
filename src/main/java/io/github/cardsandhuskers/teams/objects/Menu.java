@@ -1,9 +1,16 @@
 package io.github.cardsandhuskers.teams.objects;
 
+import com.mojang.authlib.GameProfile;
 import io.github.cardsandhuskers.teams.Teams;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
+import io.github.cardsandhuskers.teams.handlers.TablistHandler;
+import net.minecraft.network.protocol.game.ClientboundPlayerInfoPacket;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.network.ServerGamePacketListenerImpl;
+import org.black_ixx.playerpoints.PlayerPointsAPI;
+import org.bukkit.*;
+import org.bukkit.craftbukkit.v1_19_R1.entity.CraftPlayer;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -11,34 +18,27 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import io.github.cardsandhuskers.teams.handlers.TeamHandler;
+import org.bukkit.scoreboard.Scoreboard;
 
 import java.util.ArrayList;
+import java.util.UUID;
+
+import static io.github.cardsandhuskers.teams.Teams.teamListArray;
 
 public class Menu {
-    public TeamHandler handler = Teams.handler;
-    public Inventory inv;
+    private TeamHandler handler = Teams.handler;
+    private Inventory inv;
     public Player player;
-
+    TablistHandler tablistHandler;
 
     public Menu(Player p) {
         player = p;
+        tablistHandler = new TablistHandler();
 
     }
     public void generateMenu(Player p) {
         inv = Bukkit.createInventory(p, 27, ChatColor.AQUA + "Team Menu");
 
-        //Page Changers
-        /*
-        ItemStack lastPage = new ItemStack(Material.LIGHT_BLUE_STAINED_GLASS_PANE, 1);
-        ItemMeta lastPageMeta = lastPage.getItemMeta();
-        lastPageMeta.setDisplayName(ChatColor.AQUA + "Previous Page");
-        lastPage.setItemMeta(lastPageMeta);
-
-        ItemStack nextPage = new ItemStack(Material.LIGHT_BLUE_STAINED_GLASS_PANE, 1);
-        ItemMeta nextPageMeta = lastPage.getItemMeta();
-        nextPageMeta.setDisplayName(ChatColor.AQUA + "Next Page");
-        nextPage.setItemMeta(nextPageMeta);
-        */
 
         populateTeams();
 
@@ -68,6 +68,28 @@ public class Menu {
     }
 
     public void populateTeams() {
+        boolean isReady;
+        if(handler.getPlayerTeam(player) != null) {
+            isReady = handler.getPlayerTeam(player).isReady();
+        } else {
+            isReady = false;
+        }
+
+        if(isReady) {
+            ItemStack readyItem = new ItemStack(Material.LIME_BANNER, 1);
+            ItemMeta readyItemMeta = readyItem.getItemMeta();
+            readyItemMeta.setDisplayName(ChatColor.GREEN + "Ready!");
+            readyItem.setItemMeta(readyItemMeta);
+            inv.setItem(24, readyItem);
+        } else {
+            ItemStack readyItem = new ItemStack(Material.RED_BANNER, 1);
+            ItemMeta readyItemMeta = readyItem.getItemMeta();
+            readyItemMeta.setDisplayName(ChatColor.RED + "Ready Up!");
+            readyItem.setItemMeta(readyItemMeta);
+            inv.setItem(24, readyItem);
+        }
+
+
 
 
         //empties out the teams portion of the menu
@@ -97,14 +119,13 @@ public class Menu {
                 }
 
                 ItemMeta teamMeta = teamStack.get(i).getItemMeta();
-                teamMeta.setDisplayName(handler.getTeam(i).color + handler.getTeam(i).getTeamName());
 
                 if(handler.getTeam(i).isReady()) {
                     teamStack.get(i).addUnsafeEnchantment(Enchantment.LURE, 1);
                     teamMeta = teamStack.get(i).getItemMeta();
                     teamMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
                 }
-
+                teamMeta.setDisplayName(handler.getTeam(i).color + handler.getTeam(i).getTeamName());
 
                 ArrayList<String> teamLore = new ArrayList<>();
                 teamLore.clear();
@@ -113,8 +134,11 @@ public class Menu {
                     teamLore.add("EMPTY");
                 } else {
                     //loops through members of the team to add to the lore
-                    for(int j = 0; j < handler.getTeam(i).getSize(); j++) {
-                        teamLore.add(ChatColor.WHITE + handler.getTeam(i).getPlayer(j).getName());
+                    //for(int j = 0; j < handler.getTeam(i).getSize(); j++) {
+                    //    teamLore.add(ChatColor.WHITE + handler.getTeam(i).getPlayer(j).getName());
+                    //}
+                    for(Player p:handler.getTeam(i).getOnlinePlayers()) {
+                        teamLore.add(ChatColor.WHITE + p.getName());
                     }
                 }
 
@@ -123,8 +147,8 @@ public class Menu {
                 inv.setItem(i, teamStack.get(i));
 
             }
+            //tablistHandler.buildTabList(player);
         }
-
     }
 
 }

@@ -2,6 +2,7 @@ package io.github.cardsandhuskers.teams.commands;
 
 import io.github.cardsandhuskers.teams.handlers.TeamHandler;
 import io.github.cardsandhuskers.teams.objects.Menu;
+import org.black_ixx.playerpoints.PlayerPointsAPI;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -12,7 +13,8 @@ import static io.github.cardsandhuskers.teams.Teams.teamsLocked;
 
 public class TeamCommand implements CommandExecutor {
     TeamHandler handler;
-    public TeamCommand(TeamHandler h) {
+
+    public TeamCommand(TeamHandler h, PlayerPointsAPI ppAPI) {
         handler = h;
     }
     @Override

@@ -33,33 +33,40 @@ public class TeamMenuListener implements Listener {
     public void onMenuClick(InventoryClickEvent e) {
         String invName = e.getView().getTitle();
 
-        if(invName.equalsIgnoreCase(ChatColor.AQUA + "Team Menu")) {
+        if (invName.equalsIgnoreCase(ChatColor.AQUA + "Team Menu")) {
             HumanEntity p = e.getWhoClicked();
-            Player player = (Player)p;
-            if(e.getCurrentItem() == null) {
+            Player player = (Player) p;
+            if (e.getCurrentItem() == null) {
                 return;
             }
 
-            if(isValid(e.getCurrentItem().getType())) {
+            if (isValid(e.getCurrentItem().getType())) {
                 String s = e.getCurrentItem().getItemMeta().getDisplayName();
                 s = ChatColor.stripColor(s);
                 boolean result = handler.addPlayer(player, s);
-                if(result == false) {
+                if (result == false) {
                     p.sendMessage(ChatColor.RED + "ERROR: You are already on that team");
                 }
             }
 
-            if(e.getCurrentItem().getType() == Material.NAME_TAG) {
-
+            if (e.getCurrentItem().getType() == Material.NAME_TAG) {
                 new AnvilGUI.Builder()
                         .onClose(player1 -> {                                               //called when the inventory is closing
-
                         })
                         .onComplete((player1, text) -> {                                    //called when the inventory output slot is clicked
-                            boolean result = handler.createTeam(text);
-                            handler.addPlayer(player, text);
-                            if(result == true) {
-                                player.sendMessage("Team Created");
+                            String teamName = text.trim();
+                            boolean result;
+                            if(teamName.length() <= 20) {
+                                result = handler.createTeam(teamName);
+                            } else {
+                                result = false;
+                            }
+
+
+                            if (result == true) {
+                                handler.addPlayer(player, teamName);
+                                player.sendMessage(handler.getTeam(teamName).color + "Team " + teamName + " created successfully!");
+
                             } else {
                                 player.sendMessage("Could not Create Team");
                             }
@@ -70,34 +77,30 @@ public class TeamMenuListener implements Listener {
                         .title("Enter Team Name:")                                       //set the title of the GUI (only works in 1.14+)
                         .plugin(plugin)                                          //set the plugin instance
                         .open(player);                                                   //opens the GUI for the player provided
-
-
-
-
             }
 
-            if(e.getCurrentItem().getType() == Material.BARRIER) {
-                if(!(handler.getPlayerTeam(player) == null)) {
-                    handler.removePlayer(player, handler.getPlayerTeam(player));
-                } else {
-                    p.sendMessage(ChatColor.RED + "ERROR: You are not on a team");
-                }
-            }
-
-            if(e.getSlot() == 24) {
-                if(handler.getPlayerTeam(player) == null) {
-
-                } else {
-                    handler.getPlayerTeam(player).toggleReady();
+                if (e.getCurrentItem().getType() == Material.BARRIER) {
+                    if (!(handler.getPlayerTeam(player) == null)) {
+                        handler.removePlayer(player, handler.getPlayerTeam(player));
+                    } else {
+                        p.sendMessage(ChatColor.RED + "ERROR: You are not on a team");
+                    }
                 }
 
+                if (e.getSlot() == 24) {
+                    if (handler.getPlayerTeam(player) == null) {
 
-            }
+                    } else {
+                        handler.getPlayerTeam(player).toggleReady();
+                    }
 
-            for(Menu m:menuList) {
-                m.populateTeams();
-            }
-            e.setCancelled(true);
+
+                }
+
+                for (Menu m : menuList) {
+                    m.populateTeams();
+                }
+                e.setCancelled(true);
         }
     }
     public boolean isValid(Material m) {
