@@ -20,7 +20,7 @@ import static io.github.cardsandhuskers.teams.Teams.handler;
 import static io.github.cardsandhuskers.teams.Teams.teamListArray;
 
 public class TablistHandler {
-    PointsHandler pointsHandler;
+
 
     public TablistHandler() {
 
@@ -28,7 +28,7 @@ public class TablistHandler {
 
 
     public void buildTabList(Player player) {
-        pointsHandler = new PointsHandler();
+
         CraftPlayer craftPlayer = (CraftPlayer) player;
         ServerPlayer serverPlayer = craftPlayer.getHandle();
 
@@ -66,7 +66,7 @@ public class TablistHandler {
                 packetListener.send(new ClientboundPlayerInfoPacket(ClientboundPlayerInfoPacket.Action.ADD_PLAYER, fakeP));
 
                 Player fakePlayer = fakeP.getBukkitEntity();
-                fakePlayer.setPlayerListName(ChatColor.BOLD + handler.getTeam(fakePlayer.getName()).color + ChatColor.BOLD + fakePlayer.getName() + ChatColor.RESET + ChatColor.WHITE + " Points: " + ChatColor.GOLD + pointsHandler.getTeamPoints(handler.getTeam(fakePlayer.getName())));
+                fakePlayer.setPlayerListName(ChatColor.BOLD + handler.getTeam(fakePlayer.getName()).color + ChatColor.BOLD + fakePlayer.getName() + ChatColor.RESET + ChatColor.WHITE + " Points: " + ChatColor.GOLD + handler.getTeamPoints(handler.getTeam(fakePlayer.getName())));
             }
         }
     }

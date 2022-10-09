@@ -69,7 +69,6 @@ public class TeamHandler {
                         getTeam(teamName).addPlayer(player);
                         return true;
                     }
-
                 }
             }
         }
@@ -98,7 +97,6 @@ public class TeamHandler {
             colors.add(t.color);
             teamList.remove(t);
         } catch (Exception e) {
-            System.out.println("ERROR");
         }
 
     }
@@ -162,7 +160,6 @@ public class TeamHandler {
         for(Team t: teamList) {
             returnableList.add(t);
         }
-
         return returnableList;
     }
 
@@ -187,6 +184,18 @@ public class TeamHandler {
     public ArrayList<Team> getPointsSortedList() {
         ArrayList<Team> teamsArray = getTeams();
         Collections.sort(teamsArray, Comparator.comparing(Team::getPoints));
+        Collections.reverse(teamsArray);
+        return teamsArray;
+    }
+
+    /**
+     * Gets sorted list of points
+     * @return teamsArray
+     */
+    public ArrayList<Team> getTempPointsSortedList() {
+        ArrayList<Team> teamsArray = getTeams();
+        Collections.sort(teamsArray, Comparator.comparing(Team::getTempPoints));
+        Collections.reverse(teamsArray);
         return teamsArray;
     }
 

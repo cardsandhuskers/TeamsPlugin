@@ -14,9 +14,10 @@ import static io.github.cardsandhuskers.teams.Teams.ppAPI;
 
 public class Team {
     private ArrayList<UUID> playerList;
-    private ArrayList<PlayerData> playerDataList;
     private final String name;
     public String color;
+
+    private ArrayList<TempPointsHolder> tempPointsList = new ArrayList<>();
 
     private boolean ready = false;
 
@@ -28,7 +29,6 @@ public class Team {
         //this.color = assignColor();
         name = teamName;
         playerList = new ArrayList<>();
-        playerDataList = new ArrayList<>();
     }
 
     /**
@@ -37,7 +37,7 @@ public class Team {
      */
     public void addPlayer(Player player) {
         playerList.add(player.getUniqueId());
-        playerDataList.add(new PlayerData(player.getName()));
+        tempPointsList.add(new TempPointsHolder(player.getUniqueId()));
     }
 
     /**
@@ -233,5 +233,70 @@ public class Team {
      */
     public boolean isReady() {
         return ready;
+    }
+
+    /**
+     * Initializes the tempPoints list for all players on the team
+     */
+    private void initTempPoints () {
+        for(UUID p:playerList) {
+            tempPointsList.add(new TempPointsHolder(p));
+        }
+    }
+
+    /**
+     * Resets the tempPoints values for every player on the team
+     */
+    public void resetTempPoints() {
+        tempPointsList.clear();
+        initTempPoints();
+    }
+
+    /**
+     * Returns tempPoints of specified player
+     * @param p
+     * @return points
+     */
+    public TempPointsHolder getPlayerTempPoints(OfflinePlayer p) {
+        for(TempPointsHolder h:tempPointsList) {
+            if(h.getPlayer().equals(p)) {
+                return h;
+            }
+        }
+        return null;
+    }
+
+    public int getPlayerTempPointsValue(OfflinePlayer p) {
+        for(TempPointsHolder h:tempPointsList) {
+            if(h.getPlayer().equals(p)) {
+                return h.getPoints();
+            }
+        }
+        return 0;
+    }
+
+    /**
+     * Gets total tempPoints for the team
+     * @return points
+     */
+    public int getTempPoints() {
+        int points = 0;
+        for(TempPointsHolder h:tempPointsList) {
+            points += h.getPoints();
+        }
+        return points;
+    }
+
+    /**
+     * adds specified points to specified player
+     * @param p
+     * @param points
+     */
+    public void addTempPoints(Player p, int points) {
+        for(TempPointsHolder h:tempPointsList) {
+            if(h.getPlayer().equals(p)) {
+                h.addPoints(points);
+            }
+        }
     }
 }

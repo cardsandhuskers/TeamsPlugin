@@ -56,7 +56,7 @@ public class TeamMenuListener implements Listener {
                         .onComplete((player1, text) -> {                                    //called when the inventory output slot is clicked
                             String teamName = text.trim();
                             boolean result;
-                            if(teamName.length() <= 20) {
+                            if(teamName.length() <= 20 && !(teamName.equals(""))) {
                                 result = handler.createTeam(teamName);
                             } else {
                                 result = false;
