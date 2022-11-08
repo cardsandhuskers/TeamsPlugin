@@ -12,6 +12,7 @@ import net.minecraft.server.level.ServerPlayer;
 import org.black_ixx.playerpoints.PlayerPoints;
 import org.black_ixx.playerpoints.PlayerPointsAPI;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.sql.SQLOutput;
@@ -24,6 +25,7 @@ public final class Teams extends JavaPlugin {
     public static ArrayList<Menu> menuList;
 
     public static ArrayList<ServerPlayer> teamListArray = new ArrayList<>();
+    public static ArrayList<Player> openColorInvs = new ArrayList<>();
 
     public static PlayerPointsAPI ppAPI;
     //public Menu m;
@@ -58,7 +60,7 @@ public final class Teams extends JavaPlugin {
         getCommand("lockTeams").setExecutor(new LockTeamsCommand());
         getCommand("unlockTeams").setExecutor(new UnlockTeamsCommand());
         getServer().getPluginManager().registerEvents(new TeamMenuListener(this), this);
-        getServer().getPluginManager().registerEvents(new InventoryCloseListener(), this);
+        getServer().getPluginManager().registerEvents(new InventoryCloseListener(this), this);
 
         menuList = new ArrayList<>();
 

@@ -10,7 +10,7 @@ import java.util.Comparator;
 import java.util.Random;
 
 public class TeamHandler {
-    ArrayList<String> colors = new ArrayList<>();
+    public ArrayList<String> colors = new ArrayList<>();
     private ArrayList<Team> teamList;
     public TeamHandler() {
         teamList = new ArrayList<Team>();
@@ -42,13 +42,31 @@ public class TeamHandler {
             }
         }
         Team t = new Team(name);
-        String color = t.assignColor(colors);
-        if(!(colors.isEmpty())) {
-            colors.remove(color);
+        //String color = t.assignColor(colors);
+        //if(!(colors.isEmpty())) {
+        //    colors.remove(color);
+        //}
+        if(!colors.isEmpty()) {
+            t.color = colors.get(0);
+            colors.remove(0);
+        } else {
+            t.color = "§f";
         }
 
         teamList.add(t);
         return true;
+    }
+
+    public boolean assignColor(Team t, String color) {
+        if(colors.contains(color)) {
+            colors.add(t.color);
+            t.assignColor(color);
+            colors.remove(color);
+            return true;
+        } else {
+
+        }
+        return false;
     }
 
     /**
@@ -62,7 +80,6 @@ public class TeamHandler {
             for(int j = 0; j < teamList.get(i).getSize(); j++) {
                 if(player.equals(teamList.get(i).getPlayer(j))) {
                     if(getPlayerTeam(player).equals(getTeam(teamName))) {
-                        player.sendMessage("You are Already on this Team");
                         return false;
                     } else {
                         removePlayer(player, getPlayerTeam(player));

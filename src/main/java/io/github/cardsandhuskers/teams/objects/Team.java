@@ -167,10 +167,11 @@ public class Team {
 
     /**
      * Takes in the list of colors and assigns a random one to the team
-     * @param colors
+     * @param color
      * @return String of color
      */
-    public String assignColor(ArrayList<String> colors) {
+    public void assignColor(String color) {
+        /*
         if(!(colors.isEmpty())) {
             String tempColor;
 
@@ -185,6 +186,8 @@ public class Team {
             return "§f";
         }
 
+         */
+        this.color = color;
     }
 
     /**
@@ -259,8 +262,10 @@ public class Team {
      */
     public TempPointsHolder getPlayerTempPoints(OfflinePlayer p) {
         for(TempPointsHolder h:tempPointsList) {
-            if(h.getPlayer().equals(p)) {
-                return h;
+            if(h.getPlayer() != null && p.getPlayer() != null) {
+                if(h.getPlayer().equals(p)) {
+                    return h;
+                }
             }
         }
         return null;
@@ -294,8 +299,10 @@ public class Team {
      */
     public void addTempPoints(Player p, int points) {
         for(TempPointsHolder h:tempPointsList) {
-            if(h.getPlayer().equals(p)) {
-                h.addPoints(points);
+            if(h.getPlayer() != null) {
+                if(h.getPlayer().equals(p)) {
+                    h.addPoints(points);
+                }
             }
         }
     }

@@ -12,16 +12,20 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
+import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import static io.github.cardsandhuskers.teams.Teams.menuList;
+import static io.github.cardsandhuskers.teams.Teams.openColorInvs;
 
 
 public class TeamMenuListener implements Listener {
     TeamHandler handler = Teams.handler;
+
     Plugin plugin;
 
 
@@ -50,22 +54,28 @@ public class TeamMenuListener implements Listener {
             }
 
             if (e.getCurrentItem().getType() == Material.NAME_TAG) {
+                AtomicBoolean result = new AtomicBoolean(false);
                 new AnvilGUI.Builder()
                         .onClose(player1 -> {                                               //called when the inventory is closing
+                            System.out.println("TESTA");
+                            if(result.get()) {
+                                openColorSelector(player, true);
+                                System.out.println("TESTB");
+                            }
+
                         })
                         .onComplete((player1, text) -> {                                    //called when the inventory output slot is clicked
                             String teamName = text.trim();
-                            boolean result;
+
                             if(teamName.length() <= 20 && !(teamName.equals(""))) {
-                                result = handler.createTeam(teamName);
+                                result.set(handler.createTeam(teamName));
                             } else {
-                                result = false;
+                                result.set(false);
                             }
 
 
-                            if (result == true) {
+                            if (result.get() == true) {
                                 handler.addPlayer(player, teamName);
-                                player.sendMessage(handler.getTeam(teamName).color + "Team " + teamName + " created successfully!");
 
                             } else {
                                 player.sendMessage("Could not Create Team");
@@ -82,6 +92,11 @@ public class TeamMenuListener implements Listener {
                 if (e.getCurrentItem().getType() == Material.BARRIER) {
                     if (!(handler.getPlayerTeam(player) == null)) {
                         handler.removePlayer(player, handler.getPlayerTeam(player));
+                        if(openColorInvs != null) {
+                            for(Player player2:openColorInvs) {
+                                openColorSelector(player2, false);
+                            }
+                        }
                     } else {
                         p.sendMessage(ChatColor.RED + "ERROR: You are not on a team");
                     }
@@ -93,8 +108,6 @@ public class TeamMenuListener implements Listener {
                     } else {
                         handler.getPlayerTeam(player).toggleReady();
                     }
-
-
                 }
 
                 for (Menu m : menuList) {
@@ -102,7 +115,53 @@ public class TeamMenuListener implements Listener {
                 }
                 e.setCancelled(true);
         }
+        if (ChatColor.stripColor(invName).equalsIgnoreCase("Color Selection")) {
+            if(e.getCurrentItem() != null && isValid(e.getCurrentItem().getType())) {
+                Player p = (Player) e.getWhoClicked();
+                handler.assignColor(handler.getPlayerTeam(p), getColorString(e.getCurrentItem().getType()));
+
+                p.sendMessage(handler.getPlayerTeam(p).color + "Team " + handler.getPlayerTeam(p).getTeamName() + " created successfully!");
+                openColorInvs.remove(p);
+                p.closeInventory();
+                if(openColorInvs != null) {
+                    for(Player player:openColorInvs) {
+                        openColorSelector(player, false);
+                    }
+                }
+            }
+        }
     }
+
+    /**
+     * Opens/updates the color picker inventory for the specified player
+     * @param p player to open inventory on
+     * @param add add player to list or not
+     */
+    private void openColorSelector(Player p, boolean add) {
+        Inventory colorInv = Bukkit.createInventory(p, 18, ChatColor.LIGHT_PURPLE + "Color Selection");
+        int counter = 0;
+        for(String s:handler.colors) {
+            ItemStack wool = new ItemStack(getWoolColor(s), 1);
+            colorInv.setItem(counter, wool);
+            counter++;
+        }
+        if(handler.getPlayerTeam(p) != null) {
+            ItemStack wool = new ItemStack(getWoolColor(handler.getPlayerTeam(p).color), 1);
+            colorInv.setItem(counter, wool);
+        }
+
+        p.openInventory(colorInv);
+        if(add) {
+            openColorInvs.add(p);
+            if(openColorInvs != null) {
+                for(Player p2:openColorInvs) {
+                    openColorSelector(p2, false);
+                }
+                System.out.println(openColorInvs);
+            }
+        }
+    }
+
     public boolean isValid(Material m) {
         switch (m) {
             case GREEN_WOOL:
@@ -118,6 +177,46 @@ public class TeamMenuListener implements Listener {
             case MAGENTA_WOOL:
             case YELLOW_WOOL: return true;
             default: return false;
+        }
+    }
+
+    public String getColorString(Material m) {
+        switch (m) {
+            case GREEN_WOOL: return "§2";
+            case CYAN_WOOL: return "§3";
+            case PURPLE_WOOL: return "§5";
+            case ORANGE_WOOL: return "§6";
+            case LIGHT_GRAY_WOOL: return "§7";
+            case GRAY_WOOL: return "§8";
+            case BLUE_WOOL: return "§9";
+            case LIME_WOOL: return "§a";
+            case LIGHT_BLUE_WOOL: return "§b";
+            case RED_WOOL: return "§c";
+            case MAGENTA_WOOL: return "§d";
+            case YELLOW_WOOL: return "§e";
+            default: return "§f";
+        }
+    }
+
+    /**
+     * returns the wool material representing the team's color
+     * @return Material
+     */
+    public Material getWoolColor(String color) {
+        switch(color) {
+            case "§2": return Material.GREEN_WOOL;
+            case "§3": return Material.CYAN_WOOL;
+            case "§5": return Material.PURPLE_WOOL;
+            case "§6": return Material.ORANGE_WOOL;
+            case "§7": return Material.LIGHT_GRAY_WOOL;
+            case "§8": return Material.GRAY_WOOL;
+            case "§9": return Material.BLUE_WOOL;
+            case "§a": return Material.LIME_WOOL;
+            case "§b": return Material.LIGHT_BLUE_WOOL;
+            case "§c": return Material.RED_WOOL;
+            case "§d": return Material.MAGENTA_WOOL;
+            case "§e": return Material.YELLOW_WOOL;
+            default: return Material.WHITE_WOOL;
         }
     }
 
