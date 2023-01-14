@@ -1,14 +1,10 @@
 package io.github.cardsandhuskers.teams.objects;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Color;
-import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
+import org.black_ixx.playerpoints.models.SortedPlayer;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 import static io.github.cardsandhuskers.teams.Teams.ppAPI;
 
@@ -121,9 +117,44 @@ public class Team {
     }
 
     /**
+     * Sorts the players by number of points and returns it, largest to smallest
+     * @return arrayList of teams ordered by points
+     */
+    public ArrayList<Player> getPointsSortedList() {
+        List<SortedPlayer> playerArray = ppAPI.getTopSortedPoints();
+        ArrayList<Player> finalOrder = new ArrayList<>();
+        for(SortedPlayer p:playerArray) {
+            for(Player player:getOnlinePlayers()) {
+                if(p.getUniqueId().equals(player.getUniqueId())) {
+                    finalOrder.add(player);
+                }
+            }
+        }
+        return finalOrder;
+    }
+
+    /**
      * Returns the Color type color for the team
+     *
      * @return Color
      */
+    public ChatColor getChatColor() {
+        switch (color) {
+            case "§2": return ChatColor.DARK_GREEN;
+            case "§3": return ChatColor.DARK_AQUA;
+            case "§5": return ChatColor.DARK_PURPLE;
+            case "§6": return ChatColor.GOLD;
+            case "§7": return ChatColor.GRAY; //light gray
+            case "§8": return ChatColor.DARK_GRAY;
+            case "§9": return ChatColor.BLUE;
+            case "§a": return ChatColor.GREEN;
+            case "§b": return ChatColor.AQUA;
+            case "§c": return ChatColor.RED;
+            case "§d": return ChatColor.LIGHT_PURPLE; //magenta
+            case "§e": return ChatColor.YELLOW;
+            default: return ChatColor.WHITE;
+        }
+    }
     public Color translateColor() {
         switch (color) {
             case "§2": return Color.GREEN;

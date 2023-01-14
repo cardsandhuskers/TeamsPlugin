@@ -20,7 +20,7 @@ public class TeamCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player p = (Player) sender;
-        if (teamsLocked == false) {
+        if (teamsLocked == false || p.isOp()) {
             Menu m = new Menu(p);
             m.generateMenu(p);
             menuList.add(m);

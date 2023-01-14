@@ -5,6 +5,7 @@ import io.github.cardsandhuskers.teams.commands.TeamCommand;
 import io.github.cardsandhuskers.teams.commands.UnlockTeamsCommand;
 import io.github.cardsandhuskers.teams.handlers.TeamHandler;
 import io.github.cardsandhuskers.teams.listeners.InventoryCloseListener;
+import io.github.cardsandhuskers.teams.listeners.PlayerLeaveListener;
 import io.github.cardsandhuskers.teams.listeners.TeamMenuListener;
 import io.github.cardsandhuskers.teams.objects.Menu;
 import io.github.cardsandhuskers.teams.objects.Placeholder;
@@ -61,6 +62,7 @@ public final class Teams extends JavaPlugin {
         getCommand("unlockTeams").setExecutor(new UnlockTeamsCommand());
         getServer().getPluginManager().registerEvents(new TeamMenuListener(this), this);
         getServer().getPluginManager().registerEvents(new InventoryCloseListener(this), this);
+        getServer().getPluginManager().registerEvents(new PlayerLeaveListener(this), this);
 
         menuList = new ArrayList<>();
 

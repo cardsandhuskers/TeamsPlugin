@@ -16,8 +16,7 @@ import org.bukkit.scoreboard.Scoreboard;
 
 import java.util.UUID;
 
-import static io.github.cardsandhuskers.teams.Teams.handler;
-import static io.github.cardsandhuskers.teams.Teams.teamListArray;
+import static io.github.cardsandhuskers.teams.Teams.*;
 
 public class TablistHandler {
 
@@ -27,7 +26,35 @@ public class TablistHandler {
     }
 
 
-    public void buildTabList(Player player) {
+
+    public void buildTablist() {
+        /*
+        TabAPI tabAPI = TabAPI.getInstance();
+        TeamManager teamManager = tabAPI.getTeamManager();
+        HeaderFooterManager headerManager = tabAPI.getHeaderFooterManager();
+
+         */
+
+        Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
+        for(org.bukkit.scoreboard.Team t:scoreboard.getTeams()) {
+            t.unregister();
+        }
+
+        for(Team t: handler.getTeams()) {
+            org.bukkit.scoreboard.Team team = scoreboard.registerNewTeam(t.getTeamName());
+            team.setColor(t.getChatColor());
+            team.setAllowFriendlyFire(false);
+            for(Player p:t.getOnlinePlayers()) {
+                team.addEntry(p.getDisplayName());
+                team.setPrefix("[" + t.getTeamName().substring(0,1) + "] ");
+            }
+        }
+
+    }
+
+
+
+    public void buildTabListOLD(Player player) {
 
         CraftPlayer craftPlayer = (CraftPlayer) player;
         ServerPlayer serverPlayer = craftPlayer.getHandle();
@@ -49,25 +76,6 @@ public class TablistHandler {
         }
         teamListArray.clear();
 
-        //build the fake player array
-        for(Team t: handler.getTeams()) {
-            GameProfile profile = new GameProfile(UUID.randomUUID(), t.getTeamName());
 
-            ServerPlayer npc = new ServerPlayer(server, level, profile, null);
-            teamListArray.add(npc);
-        }
-
-        //send the NPC to each player online
-        for(Player p: Bukkit.getOnlinePlayers()) {
-            for(ServerPlayer fakeP:teamListArray) {
-                CraftPlayer craftP = (CraftPlayer) p;
-                ServerPlayer sp = craftP.getHandle();
-                ServerGamePacketListenerImpl packetListener = sp.connection;
-                packetListener.send(new ClientboundPlayerInfoPacket(ClientboundPlayerInfoPacket.Action.ADD_PLAYER, fakeP));
-
-                Player fakePlayer = fakeP.getBukkitEntity();
-                fakePlayer.setPlayerListName(ChatColor.BOLD + handler.getTeam(fakePlayer.getName()).color + ChatColor.BOLD + fakePlayer.getName() + ChatColor.RESET + ChatColor.WHITE + " Points: " + ChatColor.GOLD + handler.getTeamPoints(handler.getTeam(fakePlayer.getName())));
-            }
-        }
     }
 }

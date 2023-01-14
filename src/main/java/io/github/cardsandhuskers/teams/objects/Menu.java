@@ -147,7 +147,7 @@ public class Menu {
                 inv.setItem(i, teamStack.get(i));
 
             }
-            //tablistHandler.buildTabList(player);
+            tablistHandler.buildTablist();
         }
     }
 

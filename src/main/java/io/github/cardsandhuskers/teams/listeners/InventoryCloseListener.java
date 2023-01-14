@@ -33,6 +33,7 @@ public class InventoryCloseListener implements Listener {
         Player player = (Player)p;
         ArrayList<Menu> tempMenuList = new ArrayList<>();
 
+        tablistHandler.buildTablist();
 
         for (Menu m : menuList) {
             m.populateTeams();
@@ -62,7 +63,6 @@ public class InventoryCloseListener implements Listener {
                 if(openColorInvs.contains(player)) {
                     openColorInvs.remove(player);
                 }
-                System.out.println(openColorInvs);
             }, 1L);
         }
     }

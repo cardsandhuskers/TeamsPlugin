@@ -57,10 +57,8 @@ public class TeamMenuListener implements Listener {
                 AtomicBoolean result = new AtomicBoolean(false);
                 new AnvilGUI.Builder()
                         .onClose(player1 -> {                                               //called when the inventory is closing
-                            System.out.println("TESTA");
                             if(result.get()) {
                                 openColorSelector(player, true);
-                                System.out.println("TESTB");
                             }
 
                         })
@@ -89,31 +87,31 @@ public class TeamMenuListener implements Listener {
                         .open(player);                                                   //opens the GUI for the player provided
             }
 
-                if (e.getCurrentItem().getType() == Material.BARRIER) {
-                    if (!(handler.getPlayerTeam(player) == null)) {
-                        handler.removePlayer(player, handler.getPlayerTeam(player));
-                        if(openColorInvs != null) {
-                            for(Player player2:openColorInvs) {
-                                openColorSelector(player2, false);
-                            }
+            if (e.getCurrentItem().getType() == Material.BARRIER) {
+                if (!(handler.getPlayerTeam(player) == null)) {
+                    handler.removePlayer(player, handler.getPlayerTeam(player));
+                    if(openColorInvs != null) {
+                        for(Player player2:openColorInvs) {
+                            openColorSelector(player2, false);
                         }
-                    } else {
-                        p.sendMessage(ChatColor.RED + "ERROR: You are not on a team");
                     }
+                } else {
+                    p.sendMessage(ChatColor.RED + "ERROR: You are not on a team");
                 }
+            }
 
-                if (e.getSlot() == 24) {
-                    if (handler.getPlayerTeam(player) == null) {
+            if (e.getSlot() == 24) {
+                if (handler.getPlayerTeam(player) == null) {
 
-                    } else {
-                        handler.getPlayerTeam(player).toggleReady();
-                    }
+                } else {
+                    handler.getPlayerTeam(player).toggleReady();
                 }
+            }
 
-                for (Menu m : menuList) {
-                    m.populateTeams();
-                }
-                e.setCancelled(true);
+            for (Menu m : menuList) {
+                m.populateTeams();
+            }
+            e.setCancelled(true);
         }
         if (ChatColor.stripColor(invName).equalsIgnoreCase("Color Selection")) {
             if(e.getCurrentItem() != null && isValid(e.getCurrentItem().getType())) {
@@ -157,7 +155,6 @@ public class TeamMenuListener implements Listener {
                 for(Player p2:openColorInvs) {
                     openColorSelector(p2, false);
                 }
-                System.out.println(openColorInvs);
             }
         }
     }

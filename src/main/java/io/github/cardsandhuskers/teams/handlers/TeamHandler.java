@@ -195,7 +195,7 @@ public class TeamHandler {
     }
 
     /**
-     * Sorts the teams by number of points and returns it
+     * Sorts the teams by number of points and returns it, largest to smallest
      * @return arrayList of teams ordered by points
      */
     public ArrayList<Team> getPointsSortedList() {
@@ -206,7 +206,7 @@ public class TeamHandler {
     }
 
     /**
-     * Gets sorted list of points
+     * Gets sorted list of Teams by their temp points, largest to smallest
      * @return teamsArray
      */
     public ArrayList<Team> getTempPointsSortedList() {
