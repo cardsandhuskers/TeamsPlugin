@@ -302,7 +302,7 @@ public class Team {
         return null;
     }
 
-    public int getPlayerTempPointsValue(OfflinePlayer p) {
+    public double getPlayerTempPointsValue(OfflinePlayer p) {
         for(TempPointsHolder h:tempPointsList) {
             if(h.getPlayer().equals(p)) {
                 return h.getPoints();
@@ -315,8 +315,8 @@ public class Team {
      * Gets total tempPoints for the team
      * @return points
      */
-    public int getTempPoints() {
-        int points = 0;
+    public double getTempPoints() {
+        double points = 0;
         for(TempPointsHolder h:tempPointsList) {
             points += h.getPoints();
         }
@@ -328,7 +328,7 @@ public class Team {
      * @param p
      * @param points
      */
-    public void addTempPoints(Player p, int points) {
+    public void addTempPoints(Player p, double points) {
         for(TempPointsHolder h:tempPointsList) {
             if(h.getPlayer() != null) {
                 if(h.getPlayer().equals(p)) {

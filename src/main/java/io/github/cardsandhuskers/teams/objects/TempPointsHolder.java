@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public class TempPointsHolder {
     UUID player;
-    int points;
+    double points;
 
     public TempPointsHolder(UUID p) {
         player = p;
@@ -26,7 +26,7 @@ public class TempPointsHolder {
      *
      * @return int points
      */
-    public int getPoints() {
+    public double getPoints() {
         return points;
     }
 
@@ -34,7 +34,7 @@ public class TempPointsHolder {
      *
      * @param points
      */
-    public void addPoints(int points) {
+    public void addPoints(double points) {
         this.points += points;
     }
 }
