@@ -199,7 +199,6 @@ public class Team {
     /**
      * Takes in the list of colors and assigns a random one to the team
      * @param color
-     * @return String of color
      */
     public void assignColor(String color) {
         /*

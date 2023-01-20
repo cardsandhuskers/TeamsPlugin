@@ -16,7 +16,7 @@ public class TempPointsHolder {
 
     /**
      *
-     * @return Player
+     * @return associated Player
      */
     public Player getPlayer() {
         return Bukkit.getPlayer(player);
