@@ -118,12 +118,12 @@ public class Placeholder extends PlaceholderExpansion {
             if(firstTeam != null) {
                 if(playerTeam != null) {
                     if (playerTeam.equals(firstTeam)) {
-                        return getPosition(firstTeam) + ". " + firstTeam.getConfigColor() + ChatColor.BOLD + firstTeam.getTeamName() + "&r" + "    " + firstTeam.getTempPoints();
+                        return getPosition(firstTeam) + ". " + firstTeam.getConfigColor() + ChatColor.BOLD + firstTeam.getTeamName() + "&r" + "    " + (int)firstTeam.getTempPoints();
                     } else {
-                        return getPosition(firstTeam) + ". " + firstTeam.getConfigColor() + firstTeam.getTeamName() + "    &r" + firstTeam.getTempPoints();
+                        return getPosition(firstTeam) + ". " + firstTeam.getConfigColor() + firstTeam.getTeamName() + "    &r" + (int)firstTeam.getTempPoints();
                     }
                 } else {
-                    return getPosition(firstTeam) + ". " + firstTeam.getConfigColor() + firstTeam.getTeamName() + "    &r" + firstTeam.getTempPoints();
+                    return getPosition(firstTeam) + ". " + firstTeam.getConfigColor() + firstTeam.getTeamName() + "    &r" + (int)firstTeam.getTempPoints();
                 }
             } else {
                 return "TEAM";
@@ -135,7 +135,7 @@ public class Placeholder extends PlaceholderExpansion {
                 //second place team
                 Team behind = getBehind(getFirstPlace());
                 if(behind != null) {
-                    return getPosition(behind) + ". " + behind.getConfigColor() + behind.getTeamName() + "    &r" + behind.getTempPoints();
+                    return getPosition(behind) + ". " + behind.getConfigColor() + behind.getTeamName() + "    &r" + (int)behind.getTempPoints();
                     //return String.format("%-30s", "T", "5000");
                 } else {
                     return "TEAM";
@@ -145,7 +145,7 @@ public class Placeholder extends PlaceholderExpansion {
                 //first place
                 Team behind = getBehind(playerTeam);
                 if(behind != null) {
-                    return getPosition(behind) + ". " + behind.getConfigColor() + behind.getTeamName() + "    &r" + behind.getTempPoints();
+                    return getPosition(behind) + ". " + behind.getConfigColor() + behind.getTeamName() + "    &r" + (int)behind.getTempPoints();
                     //return String.format("%-30s", "T", "5000");
                 } else {
                     return "TEAM";
@@ -153,7 +153,7 @@ public class Placeholder extends PlaceholderExpansion {
             } else if(pos == 2) {
                 //second place
                 if(playerTeam != null) {
-                    return getPosition(playerTeam) + ". " + playerTeam.getConfigColor() + ChatColor.BOLD + playerTeam.getTeamName() + "&r    " + playerTeam.getTempPoints();
+                    return getPosition(playerTeam) + ". " + playerTeam.getConfigColor() + ChatColor.BOLD + playerTeam.getTeamName() + "&r    " + (int)playerTeam.getTempPoints();
                 } else {
                     return "TEAM";
                 }
@@ -168,7 +168,7 @@ public class Placeholder extends PlaceholderExpansion {
                 }
 
                 if(doubleAhead != null) {
-                    return getPosition(doubleAhead) + ". " + doubleAhead.getConfigColor() + doubleAhead.getTeamName() + "    &r" + doubleAhead.getTempPoints();
+                    return getPosition(doubleAhead) + ". " + doubleAhead.getConfigColor() + doubleAhead.getTeamName() + "    &r" + (int)doubleAhead.getTempPoints();
                 } else {
                     return "TEAM";
                 }
@@ -176,7 +176,7 @@ public class Placeholder extends PlaceholderExpansion {
                 //everywhere else
                 Team ahead = getAhead(playerTeam);
                 if(ahead != null) {
-                    return getPosition(ahead) + ". " + ahead.getConfigColor() + ahead.getTeamName() + "    &r" + ahead.getTempPoints();
+                    return getPosition(ahead) + ". " + ahead.getConfigColor() + ahead.getTeamName() + "    &r" + (int)ahead.getTempPoints();
                 } else {
                     return "TEAM";
                 }
@@ -187,7 +187,7 @@ public class Placeholder extends PlaceholderExpansion {
                 //third place team
                 Team behind = getBehind(getBehind(getFirstPlace()));
                 if(behind != null) {
-                    return getPosition(behind) + ". " + behind.getConfigColor() + behind.getTeamName() + "    &r" + behind.getTempPoints();
+                    return getPosition(behind) + ". " + behind.getConfigColor() + behind.getTeamName() + "    &r" + (int)behind.getTempPoints();
                     //return String.format("%-30s", "T", "5000");
                 } else {
                     return "TEAM";
@@ -203,7 +203,7 @@ public class Placeholder extends PlaceholderExpansion {
                     return "TEAM";
                 }
                 if(doubleBehind != null) {
-                    return getPosition(doubleBehind) + ". " + doubleBehind.getConfigColor() + doubleBehind.getTeamName() + "    &r" + doubleBehind.getTempPoints();
+                    return getPosition(doubleBehind) + ". " + doubleBehind.getConfigColor() + doubleBehind.getTeamName() + "    &r" + (int)doubleBehind.getTempPoints();
                 } else {
                     return "TEAM";
                 }
@@ -211,7 +211,7 @@ public class Placeholder extends PlaceholderExpansion {
                 //second place
                 Team behind = getBehind(playerTeam);
                 if(behind != null) {
-                    return getPosition(behind) + ". " + behind.getConfigColor() + behind.getTeamName() + "    &r" + behind.getTempPoints();
+                    return getPosition(behind) + ". " + behind.getConfigColor() + behind.getTeamName() + "    &r" + (int)behind.getTempPoints();
                 } else {
                     return "TEAM";
                 }
@@ -219,14 +219,14 @@ public class Placeholder extends PlaceholderExpansion {
                 //last place
                 Team ahead = getAhead(playerTeam);
                 if(ahead != null) {
-                    return getPosition(ahead) + ". " + ahead.getConfigColor() + ahead.getTeamName() + "    &r" + ahead.getTempPoints();
+                    return getPosition(ahead) + ". " + ahead.getConfigColor() + ahead.getTeamName() + "    &r" + (int)ahead.getTempPoints();
                 } else {
                     return "TEAM";
                 }
             } else {
                 //everywhere else
                 if(playerTeam != null) {
-                    return getPosition(playerTeam) + ". " + playerTeam.getConfigColor() + ChatColor.BOLD + playerTeam.getTeamName() + "&r    " + playerTeam.getTempPoints();
+                    return getPosition(playerTeam) + ". " + playerTeam.getConfigColor() + ChatColor.BOLD + playerTeam.getTeamName() + "&r    " + (int)playerTeam.getTempPoints();
                 } else {
                     return "TEAM";
                 }
@@ -237,7 +237,7 @@ public class Placeholder extends PlaceholderExpansion {
                 //third place team
                 Team behind = getBehind(getBehind(getBehind(getFirstPlace())));
                 if(behind != null) {
-                    return getPosition(behind) + ". " + behind.getConfigColor() + behind.getTeamName() + "    &r" + behind.getTempPoints();
+                    return getPosition(behind) + ". " + behind.getConfigColor() + behind.getTeamName() + "    &r" + (int)behind.getTempPoints();
                     //return String.format("%-30s", "T", "5000");
                 } else {
                     return "TEAM";
@@ -259,7 +259,7 @@ public class Placeholder extends PlaceholderExpansion {
                     return "TEAM";
                 }
                 if(tripleBehind != null) {
-                    return getPosition(tripleBehind) + ". " + tripleBehind.getConfigColor() + tripleBehind.getTeamName() + "    &r" + tripleBehind.getTempPoints();
+                    return getPosition(tripleBehind) + ". " + tripleBehind.getConfigColor() + tripleBehind.getTeamName() + "    &r" + (int)tripleBehind.getTempPoints();
                 } else {
                     return "TEAM";
                 }
@@ -274,14 +274,14 @@ public class Placeholder extends PlaceholderExpansion {
                 }
 
                 if(doubleBehind != null) {
-                    return getPosition(doubleBehind) + ". " + doubleBehind.getConfigColor() + doubleBehind.getTeamName() + "    &r" + doubleBehind.getTempPoints();
+                    return getPosition(doubleBehind) + ". " + doubleBehind.getConfigColor() + doubleBehind.getTeamName() + "    &r" + (int)doubleBehind.getTempPoints();
                 } else {
                     return "TEAM";
                 }
             } else if(pos == numTeams) {
                 //last place
                 if(playerTeam != null) {
-                    return getPosition(playerTeam) + ". " + playerTeam.getConfigColor() + ChatColor.BOLD + playerTeam.getTeamName() + "&r    " + playerTeam.getTempPoints();
+                    return getPosition(playerTeam) + ". " + playerTeam.getConfigColor() + ChatColor.BOLD + playerTeam.getTeamName() + "&r    " + (int)playerTeam.getTempPoints();
                 } else {
                     return "TEAM";
                 }
@@ -289,7 +289,7 @@ public class Placeholder extends PlaceholderExpansion {
                 //everywhere else
                 Team behind = getBehind(playerTeam);
                 if(behind != null) {
-                    return getPosition(behind) + ". " + behind.getConfigColor() + behind.getTeamName() + "    &r" + behind.getTempPoints();
+                    return getPosition(behind) + ". " + behind.getConfigColor() + behind.getTeamName() + "    &r" + (int)behind.getTempPoints();
                 } else {
                     return "TEAM";
                 }

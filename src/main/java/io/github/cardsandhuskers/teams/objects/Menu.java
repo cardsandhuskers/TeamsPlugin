@@ -39,7 +39,6 @@ public class Menu {
     public void generateMenu(Player p) {
         inv = Bukkit.createInventory(p, 27, ChatColor.AQUA + "Team Menu");
 
-
         populateTeams();
 
         //Create and Leave team
