@@ -5,6 +5,12 @@ import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
+/**
+ * Simple holder object for each player's temp points.
+ * Should probably be replaced by a HashMap eventually.
+ * @author cardsandhuskers
+ * @version 1.0
+ */
 public class TempPointsHolder {
     UUID player;
     double points;
@@ -20,6 +26,10 @@ public class TempPointsHolder {
      */
     public Player getPlayer() {
         return Bukkit.getPlayer(player);
+    }
+
+    public UUID getUUID() {
+        return player;
     }
 
     /**

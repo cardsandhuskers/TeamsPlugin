@@ -8,9 +8,19 @@ import java.util.*;
 
 import static io.github.cardsandhuskers.teams.Teams.ppAPI;
 
+/**
+ * Team object that holds data and methods for each team.
+ * color member is public and may be made private with a getter in the future to prevent it from being assigned
+ * @author cardsandhuskers
+ * @version 1.0
+ */
 public class Team {
     private ArrayList<UUID> playerList;
     private final String name;
+
+    /**
+     * this can be assigned, if you assign it something bad, things could break, so don't modify it, only read it
+     */
     public String color;
 
     private ArrayList<TempPointsHolder> tempPointsList = new ArrayList<>();
@@ -19,7 +29,7 @@ public class Team {
 
     /**
      * Constructor, creates the team Object
-     * @param teamName
+     * @param teamName name of team
      */
     public Team(String teamName) {
         //this.color = assignColor();
@@ -29,7 +39,7 @@ public class Team {
 
     /**
      * Adds the specified player to the team
-     * @param player
+     * @param player player to add
      */
     public void addPlayer(Player player) {
         playerList.add(player.getUniqueId());
@@ -38,7 +48,7 @@ public class Team {
 
     /**
      * Removes the specified player from the team
-     * @param player
+     * @param player player to remove
      */
     public void removePlayer(Player player) {
         playerList.remove(player.getUniqueId());
@@ -46,7 +56,7 @@ public class Team {
 
     /**
      * gets the list of players on the team
-     * @return ArrayList of Players
+     * @return ArrayList of OfflinePlayers
      */
     public ArrayList<OfflinePlayer> getPlayers() {
         //Creates a deep copy and returns it so that no one can mess with the list
@@ -59,6 +69,18 @@ public class Team {
         return returnableList;
     }
 
+    /**
+     * gets the UUIDs of all players on the team
+     * @return Arraylist of UUIDs
+     */
+    public ArrayList<UUID> getPlayerIDs() {
+        return new ArrayList<>(playerList);
+    }
+
+    /**
+     * gets the list of all online players on the team
+     * @return ArrayList of Players Deep copy of players
+     */
     public ArrayList<Player> getOnlinePlayers() {
         //Creates a deep copy and returns it so that no one can mess with the list
         ArrayList<Player> returnableList = new ArrayList<>();
@@ -110,7 +132,7 @@ public class Team {
             case "§a": return Material.LIME_WOOL;
             case "§b": return Material.LIGHT_BLUE_WOOL;
             case "§c": return Material.RED_WOOL;
-            case "§d": return Material.MAGENTA_WOOL;
+            case "§d": return Material.PINK_WOOL;
             case "§e": return Material.YELLOW_WOOL;
             default: return Material.WHITE_WOOL;
         }
@@ -134,9 +156,9 @@ public class Team {
     }
 
     /**
-     * Returns the Color type color for the team
+     * Returns the ChatColor of the team
      *
-     * @return Color
+     * @return ChatColor
      */
     public ChatColor getChatColor() {
         switch (color) {
@@ -155,6 +177,11 @@ public class Team {
             default: return ChatColor.WHITE;
         }
     }
+
+    /**
+     * Returns the Color of the team
+     * @return Color
+     */
     public Color translateColor() {
         switch (color) {
             case "§2": return Color.GREEN;
@@ -174,7 +201,7 @@ public class Team {
     }
 
     /**
-     * Converts color format from the § to the & format
+     * Converts color format from the § to the "&" format
      * @return String color
      */
     public String getConfigColor() {
@@ -286,9 +313,9 @@ public class Team {
     }
 
     /**
-     * Returns tempPoints of specified player
+     * Returns player's tempPointsHolder object
      * @param p
-     * @return points
+     * @return pointsHolder of player
      */
     public TempPointsHolder getPlayerTempPoints(OfflinePlayer p) {
         for(TempPointsHolder h:tempPointsList) {
@@ -301,6 +328,11 @@ public class Team {
         return null;
     }
 
+    /**
+     * Returns player's temp points
+     * @param p
+     * @return double value of Player's points
+     */
     public double getPlayerTempPointsValue(OfflinePlayer p) {
         for(TempPointsHolder h:tempPointsList) {
             if(h.getPlayer().equals(p)) {
@@ -309,6 +341,16 @@ public class Team {
         }
         return 0;
     }
+
+    public double getPlayerTempPointsValue(UUID p) {
+        for(TempPointsHolder h:tempPointsList) {
+            if(h.getUUID().equals(p)) {
+                return h.getPoints();
+            }
+        }
+        return 0;
+    }
+
 
     /**
      * Gets total tempPoints for the team

@@ -100,7 +100,7 @@ public class TeamHandler {
      */
     public void removePlayer(Player player, Team team) {
         team.removePlayer(player);
-        if (team.getSize() == 0) {
+        if (team.getOnlinePlayers().size() == 0) {
             deleteTeam(team);
         }
     }

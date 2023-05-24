@@ -67,17 +67,6 @@ public class Placeholder extends PlaceholderExpansion {
         }
 
         if(s.equalsIgnoreCase("position")) {
-            /*
-            for(Team t: handler.getTeams()) {
-                for(Player player: t.getOnlinePlayers()) {
-                    if(player != null) {
-                        playerPoints.add(t.getPlayerTempPoints(player));
-                    }
-                }
-            }
-             */
-            //Collections.sort(playerPoints, Comparator.comparing(TempPointsHolder:: getPoints));
-            //Collections.reverse(playerPoints);
             List<SortedPlayer> playerPoints = ppAPI.getTopSortedPoints();
             int i = 0;
             for(SortedPlayer h:playerPoints) {
@@ -296,8 +285,6 @@ public class Placeholder extends PlaceholderExpansion {
             }
         }
 
-
-
         for(int i = 1; i <= handler.getNumTeams(); i++) {
             if(s.equalsIgnoreCase("team" + i)) {
                 Team team = handler.getPointsSortedList().get(i-1);
@@ -318,7 +305,6 @@ public class Placeholder extends PlaceholderExpansion {
             }
         }
 
-
         for(int i = 1; i <= handler.getNumTeams(); i++) {
             Team team = handler.getPointsSortedList().get(i-1);
 
@@ -332,14 +318,11 @@ public class Placeholder extends PlaceholderExpansion {
         return "";
     }
 
-
-
-
-
-
-
-
-
+    /**
+     * Gets the team 1 spot ahead of the passed team
+     * @param t
+     * @return Team ahead of the passed team
+     */
     public Team getAhead(Team t) {
         int teamIndex = teamArrayList.indexOf(t);
         if(teamIndex > 0) {
@@ -349,6 +332,11 @@ public class Placeholder extends PlaceholderExpansion {
         }
     }
 
+    /**
+     * Gets the team 1 spot behind the passed team
+     * @param t
+     * @return Team behind the passed team
+     */
     public Team getBehind(Team t) {
         int teamIndex = teamArrayList.indexOf(t);
         if(teamArrayList.size() > 0) {
@@ -361,6 +349,11 @@ public class Placeholder extends PlaceholderExpansion {
             return null;
         }
     }
+
+    /**
+     * Gets the team in first palce
+     * @return Team in first place
+     */
     public Team getFirstPlace() {
         if(teamArrayList.size()>0) {
             Team team = teamArrayList.get(0);
@@ -370,6 +363,12 @@ public class Placeholder extends PlaceholderExpansion {
         }
 
     }
+
+    /**
+     * Gets the leaderboard position of the specified team
+     * @param t
+     * @return position of team
+     */
     public int getPosition(Team t) {
         try {
             int index = teamArrayList.indexOf(t);
