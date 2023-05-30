@@ -9,7 +9,6 @@ import io.github.cardsandhuskers.teams.listeners.PlayerLeaveListener;
 import io.github.cardsandhuskers.teams.listeners.TeamMenuListener;
 import io.github.cardsandhuskers.teams.objects.Menu;
 import io.github.cardsandhuskers.teams.objects.Placeholder;
-import net.minecraft.server.level.ServerPlayer;
 import org.black_ixx.playerpoints.PlayerPoints;
 import org.black_ixx.playerpoints.PlayerPointsAPI;
 import org.bukkit.Bukkit;
@@ -25,7 +24,7 @@ public final class Teams extends JavaPlugin {
     public static boolean teamsLocked = false;
     public static ArrayList<Menu> menuList;
 
-    public static ArrayList<ServerPlayer> teamListArray = new ArrayList<>();
+    //public static ArrayList<ServerPlayer> teamListArray = new ArrayList<>();
     public static ArrayList<Player> openColorInvs = new ArrayList<>();
 
     public static PlayerPointsAPI ppAPI;

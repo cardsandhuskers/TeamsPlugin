@@ -62,8 +62,8 @@ public class TeamMenuListener implements Listener {
                             }
 
                         })
-                        .onComplete((player1, text) -> {                                    //called when the inventory output slot is clicked
-                            String teamName = text.trim();
+                        .onClick((slot, stateSnapshot) -> {                                    //called when the inventory output slot is clicked
+                            String teamName = stateSnapshot.getText().trim();
 
                             if(teamName.length() <= 20 && !(teamName.equals(""))) {
                                 result.set(handler.createTeam(teamName));

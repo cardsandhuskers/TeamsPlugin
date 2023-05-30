@@ -1,16 +1,8 @@
 package io.github.cardsandhuskers.teams.objects;
 
-import com.mojang.authlib.GameProfile;
 import io.github.cardsandhuskers.teams.Teams;
 import io.github.cardsandhuskers.teams.handlers.TablistHandler;
-import net.minecraft.network.protocol.game.ClientboundPlayerInfoPacket;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.network.ServerGamePacketListenerImpl;
-import org.black_ixx.playerpoints.PlayerPointsAPI;
 import org.bukkit.*;
-import org.bukkit.craftbukkit.v1_19_R1.entity.CraftPlayer;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -18,12 +10,9 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import io.github.cardsandhuskers.teams.handlers.TeamHandler;
-import org.bukkit.scoreboard.Scoreboard;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
-import static io.github.cardsandhuskers.teams.Teams.teamListArray;
 
 public class Menu {
     private TeamHandler handler = Teams.handler;

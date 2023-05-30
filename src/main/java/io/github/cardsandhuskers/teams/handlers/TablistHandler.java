@@ -1,16 +1,7 @@
 package io.github.cardsandhuskers.teams.handlers;
 
-import com.mojang.authlib.GameProfile;
 import io.github.cardsandhuskers.teams.objects.Team;
-import net.minecraft.network.protocol.game.ClientboundPlayerInfoPacket;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.network.ServerGamePacketListenerImpl;
-import org.black_ixx.playerpoints.PlayerPointsAPI;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.craftbukkit.v1_19_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Scoreboard;
 
@@ -53,7 +44,7 @@ public class TablistHandler {
     }
 
 
-
+    /*
     public void buildTabListOLD(Player player) {
 
         CraftPlayer craftPlayer = (CraftPlayer) player;
@@ -77,5 +68,5 @@ public class TablistHandler {
         teamListArray.clear();
 
 
-    }
+    }*/
 }
