@@ -36,8 +36,10 @@ public class TeamMenuListener implements Listener {
     @EventHandler
     public void onMenuClick(InventoryClickEvent e) {
         String invName = e.getView().getTitle();
+        System.out.println(invName);
 
-        if (invName.equalsIgnoreCase(ChatColor.AQUA + "Team Menu")) {
+        if (ChatColor.stripColor(invName).equalsIgnoreCase("Team Menu")) {
+            //System.out.println("TEST");
             HumanEntity p = e.getWhoClicked();
             Player player = (Player) p;
             if (e.getCurrentItem() == null) {
@@ -54,6 +56,7 @@ public class TeamMenuListener implements Listener {
             }
 
             if (e.getCurrentItem().getType() == Material.NAME_TAG) {
+                //System.out.println("TEST2");
                 AtomicBoolean result = new AtomicBoolean(false);
                 new AnvilGUI.Builder()
                         .onClose(player1 -> {                                               //called when the inventory is closing
@@ -171,7 +174,7 @@ public class TeamMenuListener implements Listener {
             case BLUE_WOOL:
             case LIME_WOOL:
             case RED_WOOL:
-            case MAGENTA_WOOL:
+            case PINK_WOOL:
             case YELLOW_WOOL: return true;
             default: return false;
         }
@@ -189,7 +192,7 @@ public class TeamMenuListener implements Listener {
             case LIME_WOOL: return "§a";
             case LIGHT_BLUE_WOOL: return "§b";
             case RED_WOOL: return "§c";
-            case MAGENTA_WOOL: return "§d";
+            case PINK_WOOL: return "§d";
             case YELLOW_WOOL: return "§e";
             default: return "§f";
         }
@@ -211,7 +214,7 @@ public class TeamMenuListener implements Listener {
             case "§a": return Material.LIME_WOOL;
             case "§b": return Material.LIGHT_BLUE_WOOL;
             case "§c": return Material.RED_WOOL;
-            case "§d": return Material.MAGENTA_WOOL;
+            case "§d": return Material.PINK_WOOL;
             case "§e": return Material.YELLOW_WOOL;
             default: return Material.WHITE_WOOL;
         }

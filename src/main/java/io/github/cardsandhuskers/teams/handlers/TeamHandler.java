@@ -114,6 +114,7 @@ public class TeamHandler {
             colors.add(t.color);
             teamList.remove(t);
         } catch (Exception e) {
+            e.printStackTrace();
         }
 
     }
