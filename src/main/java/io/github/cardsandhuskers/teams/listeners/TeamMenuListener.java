@@ -36,7 +36,7 @@ public class TeamMenuListener implements Listener {
     @EventHandler
     public void onMenuClick(InventoryClickEvent e) {
         String invName = e.getView().getTitle();
-        System.out.println(invName);
+        //System.out.println(invName);
 
         if (ChatColor.stripColor(invName).equalsIgnoreCase("Team Menu")) {
             //System.out.println("TEST");
