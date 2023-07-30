@@ -50,6 +50,19 @@ public class Placeholder extends PlaceholderExpansion {
                 return "";
             }
         }
+
+        if(s.equalsIgnoreCase("tabTeam")) {
+            if(handler.getPlayerTeam((Player) p) != null) {
+                String name = handler.getPlayerTeam((Player) p).color + handler.getPlayerTeam((Player) p).getTeamName();
+                name = name.substring(0, Math.min(6, name.length()));
+                System.out.println(name);
+                return name;
+
+            } else {
+                return "-";
+            }
+        }
+
         if(s.equalsIgnoreCase("team")) {
             if(handler.getPlayerTeam((Player) p) != null) {
                 return handler.getPlayerTeam((Player)p).getConfigColor() + handler.getPlayerTeam((Player)p).getTeamName();
@@ -315,7 +328,7 @@ public class Placeholder extends PlaceholderExpansion {
                 }
             }
         }
-        return "";
+        return null;
     }
 
     /**
