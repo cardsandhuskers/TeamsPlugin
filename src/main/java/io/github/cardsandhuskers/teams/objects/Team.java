@@ -342,7 +342,7 @@ public class Team {
      */
     public double getPlayerTempPointsValue(OfflinePlayer p) {
         for(TempPointsHolder h:tempPointsList) {
-            if(h.getPlayer().equals(p)) {
+            if(h.getUUID().equals(p.getUniqueId())) {
                 return h.getPoints();
             }
         }
