@@ -55,7 +55,6 @@ public class Placeholder extends PlaceholderExpansion {
             if(handler.getPlayerTeam((Player) p) != null) {
                 String name = handler.getPlayerTeam((Player) p).color + handler.getPlayerTeam((Player) p).getTeamName();
                 name = name.substring(0, Math.min(6, name.length()));
-                System.out.println(name);
                 return name;
 
             } else {
@@ -328,7 +327,7 @@ public class Placeholder extends PlaceholderExpansion {
                 }
             }
         }
-        return null;
+        return "";
     }
 
     /**

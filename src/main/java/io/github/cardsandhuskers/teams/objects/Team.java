@@ -194,7 +194,7 @@ public class Team {
             case "§a": return Color.LIME;
             case "§b": return Color.AQUA;
             case "§c": return Color.RED;
-            case "§d": return Color.fromRGB(255,0,255); //magenta
+            case "§d": return Color.fromRGB(243,139,170); //pink
             case "§e": return Color.YELLOW;
             default: return Color.WHITE;
         }
