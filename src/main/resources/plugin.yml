@@ -2,7 +2,8 @@ name: Teams
 version: '${project.version}'
 main: io.github.cardsandhuskers.teams.Teams
 api-version: 1.19
-depend: [PlayerPoints, PlaceholderAPI]
+depend: [PlayerPoints]
+softdepend: [PlaceholderAPI]
 commands:
   teamMenu:
     description: opens the team menu
@@ -12,4 +13,7 @@ commands:
     command: /<command>
   unlockTeams:
     description: prevent changes to teams
+    command: /<command>
+  teams:
+    description: parent command for handling teams
     command: /<command>

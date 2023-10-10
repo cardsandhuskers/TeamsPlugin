@@ -14,15 +14,22 @@ public class LockTeamsCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        Player p = (Player) sender;
-        if(p.isOp()) {
+        if(sender instanceof Player p) {
+            if (p.isOp()) {
+                teamsLocked = true;
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    player.closeInventory();
+                }
+                p.sendMessage("Teams have Been Locked");
+            } else {
+                p.sendMessage("You do not have permission to execute this command.");
+            }
+        } else {
             teamsLocked = true;
-            for(Player player: Bukkit.getOnlinePlayers()) {
+            for (Player player : Bukkit.getOnlinePlayers()) {
                 player.closeInventory();
             }
-            p.sendMessage("Teams have Been Locked");
-        } else {
-            p.sendMessage("You do not have permission to execute this command.");
+            System.out.println("Teams have Been Locked");
         }
 
         return false;

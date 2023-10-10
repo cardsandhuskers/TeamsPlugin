@@ -1,5 +1,6 @@
 package io.github.cardsandhuskers.teams.objects;
 
+import com.fasterxml.jackson.annotation.*;
 import org.black_ixx.playerpoints.models.SortedPlayer;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
@@ -14,18 +15,61 @@ import static io.github.cardsandhuskers.teams.Teams.ppAPI;
  * @author cardsandhuskers
  * @version 1.0
  */
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class Team {
     private ArrayList<UUID> playerList;
-    private final String name;
+    private String name;
 
     /**
      * this can be assigned, if you assign it something bad, things could break, so don't modify it, only read it
+     * I'll deprecate this later, but I used this everywhere before I realized what I was doing, and it's gonna be a PITA to fix
      */
     public String color;
 
+    @JsonIgnore
     private ArrayList<TempPointsHolder> tempPointsList = new ArrayList<>();
 
+    @JsonIgnore
     private boolean ready = false;
+
+    /**
+     * returns color in the §[colorChar] format
+     * @return color
+     */
+    public String getColor() {
+        return color;
+    }
+
+    /**
+     * Set the color, be careful with this
+     * @param color
+     */
+    public void setColor(String color) {
+        this.color = color;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public void setPlayerList(ArrayList<UUID> playerList) {
+        this.playerList = playerList;
+    }
+
+    /*public ArrayList<UUID> getPlayerList() {
+        return playerList;
+    }
+
+
+    public String getName() {
+        return name;
+    }
+
+
+    public boolean getReady() {
+        return ready;
+    }
+    public void setReady(boolean ready) {
+        this.ready = ready;
+    }*/
 
     /**
      * Constructor, creates the team Object
@@ -35,6 +79,17 @@ public class Team {
         //this.color = assignColor();
         name = teamName;
         playerList = new ArrayList<>();
+    }
+
+    public Team() {
+
+    }
+
+    @JsonCreator
+    public Team(@JsonProperty("name") String name, @JsonProperty("color") String color, @JsonProperty("playerList") ArrayList<UUID> playerList) {
+        this.name = name;
+        this.color = color;
+        this.playerList = playerList;
     }
 
     /**
@@ -58,6 +113,7 @@ public class Team {
      * gets the list of players on the team
      * @return ArrayList of OfflinePlayers
      */
+    @JsonIgnore
     public ArrayList<OfflinePlayer> getPlayers() {
         //Creates a deep copy and returns it so that no one can mess with the list
         ArrayList<OfflinePlayer> returnableList = new ArrayList<>();
@@ -73,6 +129,7 @@ public class Team {
      * gets the UUIDs of all players on the team
      * @return Arraylist of UUIDs
      */
+    @JsonIgnore
     public ArrayList<UUID> getPlayerIDs() {
         return new ArrayList<>(playerList);
     }
@@ -81,6 +138,7 @@ public class Team {
      * gets the list of all online players on the team
      * @return ArrayList of Players Deep copy of players
      */
+    @JsonIgnore
     public ArrayList<Player> getOnlinePlayers() {
         //Creates a deep copy and returns it so that no one can mess with the list
         ArrayList<Player> returnableList = new ArrayList<>();
@@ -95,10 +153,24 @@ public class Team {
     }
 
     /**
+     *
+     * @return list of online players' names
+     */
+    @JsonIgnore
+    public ArrayList<String> getOnlinePlayerNames() {
+        ArrayList<String> returnableList = new ArrayList<>();
+        for(Player p:getOnlinePlayers()) {
+            returnableList.add(p.getName());
+        }
+        return returnableList;
+    }
+
+    /**
      * gets player at specified index
      * @param index
      * @return Player
      */
+    @JsonIgnore
     public Player getPlayer(int index) {
 
         if(index < playerList.size()) {
@@ -111,15 +183,38 @@ public class Team {
 
     }
 
-    //gets name of team
+    /**
+     *
+     * @return name of team
+     */
+    @JsonIgnore
     public String getTeamName() {
         return name;
+    }
+
+    /**
+     * Sorts the players by number of points and returns it, largest to smallest
+     * @return arrayList of teams ordered by points
+     */
+    @JsonIgnore
+    public ArrayList<Player> getPointsSortedList() {
+        List<SortedPlayer> playerArray = ppAPI.getTopSortedPoints();
+        ArrayList<Player> finalOrder = new ArrayList<>();
+        for(SortedPlayer p:playerArray) {
+            for(Player player:getOnlinePlayers()) {
+                if(p.getUniqueId().equals(player.getUniqueId())) {
+                    finalOrder.add(player);
+                }
+            }
+        }
+        return finalOrder;
     }
 
     /**
      * returns the wool material representing the team's color
      * @return Material
      */
+    @JsonIgnore
     public Material getWoolColor() {
         switch(color) {
             case "§2": return Material.GREEN_WOOL;
@@ -139,27 +234,11 @@ public class Team {
     }
 
     /**
-     * Sorts the players by number of points and returns it, largest to smallest
-     * @return arrayList of teams ordered by points
-     */
-    public ArrayList<Player> getPointsSortedList() {
-        List<SortedPlayer> playerArray = ppAPI.getTopSortedPoints();
-        ArrayList<Player> finalOrder = new ArrayList<>();
-        for(SortedPlayer p:playerArray) {
-            for(Player player:getOnlinePlayers()) {
-                if(p.getUniqueId().equals(player.getUniqueId())) {
-                    finalOrder.add(player);
-                }
-            }
-        }
-        return finalOrder;
-    }
-
-    /**
      * Returns the ChatColor of the team
      *
      * @return ChatColor
      */
+    @JsonIgnore
     public ChatColor getChatColor() {
         switch (color) {
             case "§2": return ChatColor.DARK_GREEN;
@@ -179,7 +258,7 @@ public class Team {
     }
 
     /**
-     * Returns the Color of the team
+     * Returns the Color object of the team's color
      * @return Color
      */
     public Color translateColor() {
@@ -204,6 +283,7 @@ public class Team {
      * Converts color format from the § to the "&" format
      * @return String color
      */
+    @JsonIgnore
     public String getConfigColor() {
         String temp = "&";
         temp += color.substring(1);
@@ -214,6 +294,7 @@ public class Team {
      * gets the points the team has
      * @return int points
      */
+    @JsonIgnore
     public int getPoints() {
         int points = 0;
         for (UUID u:playerList) {
@@ -223,34 +304,13 @@ public class Team {
         return points;
     }
 
-    /**
-     * Takes in the list of colors and assigns a random one to the team
-     * @param color
-     */
-    public void assignColor(String color) {
-        /*
-        if(!(colors.isEmpty())) {
-            String tempColor;
 
-            Random r = new Random();
-            int number = r.nextInt(colors.size());
-
-            tempColor = colors.get(number);
-            color = tempColor;
-            return tempColor;
-        } else {
-            color = "§f";
-            return "§f";
-        }
-
-         */
-        this.color = color;
-    }
 
     /**
      * Gets the number of players on the team
      * @return int of team size
      */
+    @JsonIgnore
     public int getSize() {
         if (playerList.isEmpty()) {
             return 0;
@@ -271,9 +331,10 @@ public class Team {
     public String toString() {
         String s = "";
         for(int i = 0; i < playerList.size(); i++) {
-            s += playerList.get(i) + " ";
+            s += playerList.get(i) + "\n";
         }
-        return name + ": " + s;
+        String colorChar = color.substring(1);
+        return name + "\n" + colorChar + "\n" + s;
     }
 
     /**
@@ -317,6 +378,7 @@ public class Team {
      * @param p
      * @return pointsHolder of player
      */
+    @JsonIgnore
     public TempPointsHolder getPlayerTempPoints(OfflinePlayer p) {
         if(p == null) return null;
         /*
@@ -340,6 +402,7 @@ public class Team {
      * @param p
      * @return double value of Player's points
      */
+    @JsonIgnore
     public double getPlayerTempPointsValue(OfflinePlayer p) {
         for(TempPointsHolder h:tempPointsList) {
             if(h.getUUID().equals(p.getUniqueId())) {
@@ -349,6 +412,12 @@ public class Team {
         return 0;
     }
 
+    /**
+     * Gets the tempPoints for an individual player
+     * @param p
+     * @return temp points
+     */
+    @JsonIgnore
     public double getPlayerTempPointsValue(UUID p) {
         for(TempPointsHolder h:tempPointsList) {
             if(h.getUUID().equals(p)) {
@@ -363,6 +432,7 @@ public class Team {
      * Gets total tempPoints for the team
      * @return points
      */
+    @JsonIgnore
     public double getTempPoints() {
         double points = 0;
         for(TempPointsHolder h:tempPointsList) {

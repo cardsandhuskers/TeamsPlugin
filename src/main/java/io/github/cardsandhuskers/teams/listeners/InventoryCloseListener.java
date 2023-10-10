@@ -29,41 +29,35 @@ public class InventoryCloseListener implements Listener {
 
     @EventHandler
     public void onMenuClose(InventoryCloseEvent e) {
-        HumanEntity p = e.getPlayer();
-        Player player = (Player)p;
-        ArrayList<Menu> tempMenuList = new ArrayList<>();
+        if(e.getView().getTitle().equalsIgnoreCase(ChatColor.stripColor("team menu")) || e.getView().getTitle().equalsIgnoreCase(ChatColor.stripColor("color selection"))) {
+            HumanEntity p = e.getPlayer();
+            Player player = (Player)p;
+            ArrayList<Menu> tempMenuList = new ArrayList<>();
 
-        tablistHandler.buildTablist();
+            tablistHandler.buildTablist();
 
-        for (Menu m : menuList) {
-            m.populateTeams();
-        }
-        //tablistHandler.buildTabList(player);
+            for (Menu m : menuList) {
+                m.populateTeams();
+            }
+            //tablistHandler.buildTabList(player);
 
-        for(Menu m: menuList) {
-            if(m.player.equals(player)) {
-                tempMenuList.add(m);
+            for(Menu m: menuList) {
+                if(m.player.equals(player)) {
+                    tempMenuList.add(m);
 
+                }
+            }
+            for(Menu m:tempMenuList) {
+                menuList.remove(m);
+            }
+            if(player.getOpenInventory() == null) {
+                Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, ()-> {
+                    if(openColorInvs.contains(player)) {
+                        openColorInvs.remove(player);
+                    }
+                }, 1L);
             }
         }
-        for(Menu m:tempMenuList) {
-            menuList.remove(m);
-        }
-        //if (ChatColor.stripColor(e.getView().getTitle()).equalsIgnoreCase("Color Selection")) {
-            //for (Player p2 : openColorInvs) {
-            //    System.out.println("TEST OPEN A");
-            //    if (player.equals(p2)) {
-            //        openColorInvs.remove(player);
-            //        break;
-            //    }
-            //}
-        //}
-        if(player.getOpenInventory() == null) {
-            Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, ()-> {
-                if(openColorInvs.contains(player)) {
-                    openColorInvs.remove(player);
-                }
-            }, 1L);
-        }
+
     }
 }

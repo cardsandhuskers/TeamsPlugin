@@ -71,6 +71,7 @@ public class TeamMenuListener implements Listener {
                             if(teamName.length() <= 20 && !(teamName.equals(""))) {
                                 result.set(handler.createTeam(teamName));
                             } else {
+                                player.sendMessage("Team Name must be between 1 and 20 Characters.");
                                 result.set(false);
                             }
 
@@ -119,7 +120,7 @@ public class TeamMenuListener implements Listener {
         if (ChatColor.stripColor(invName).equalsIgnoreCase("Color Selection")) {
             if(e.getCurrentItem() != null && isValid(e.getCurrentItem().getType())) {
                 Player p = (Player) e.getWhoClicked();
-                handler.assignColor(handler.getPlayerTeam(p), getColorString(e.getCurrentItem().getType()));
+                handler.setColor(handler.getPlayerTeam(p), getColorString(e.getCurrentItem().getType()));
 
                 p.sendMessage(handler.getPlayerTeam(p).color + "Team " + handler.getPlayerTeam(p).getTeamName() + " created successfully!");
                 openColorInvs.remove(p);
@@ -141,7 +142,7 @@ public class TeamMenuListener implements Listener {
     private void openColorSelector(Player p, boolean add) {
         Inventory colorInv = Bukkit.createInventory(p, 18, ChatColor.LIGHT_PURPLE + "Color Selection");
         int counter = 0;
-        for(String s:handler.colors) {
+        for(String s:handler.getColors()) {
             ItemStack wool = new ItemStack(getWoolColor(s), 1);
             colorInv.setItem(counter, wool);
             counter++;

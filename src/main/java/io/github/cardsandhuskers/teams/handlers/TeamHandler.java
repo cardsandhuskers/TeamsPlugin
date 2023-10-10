@@ -4,28 +4,24 @@ import io.github.cardsandhuskers.teams.objects.Team;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Random;
+import java.util.*;
 
 public class TeamHandler {
-    public ArrayList<String> colors = new ArrayList<>();
+
+    private ArrayList<String> colors;
     private ArrayList<Team> teamList;
-    public TeamHandler() {
+
+    private static TeamHandler teamHandler = new TeamHandler();
+    private TeamHandler() {
         teamList = new ArrayList<Team>();
-        colors.add("§2");
-        colors.add("§3");
-        colors.add("§5");
-        colors.add("§6");
-        colors.add("§7");
-        colors.add("§8");
-        colors.add("§9");
-        colors.add("§a");
-        colors.add("§b");
-        colors.add("§c");
-        colors.add("§d");
-        colors.add("§e");
+        colors = new ArrayList<>(List.of("§2", "§3", "§5", "§6", "§7", "§8", "§9", "§a", "§b", "§c", "§d", "§e"));
+    }
+
+    /**
+     * Return instance of class
+     */
+    public static TeamHandler getInstance() {
+        return teamHandler;
     }
 
     /**
@@ -57,10 +53,10 @@ public class TeamHandler {
         return true;
     }
 
-    public boolean assignColor(Team t, String color) {
+    public boolean setColor(Team t, String color) {
         if(colors.contains(color)) {
             colors.add(t.color);
-            t.assignColor(color);
+            t.setColor(color);
             colors.remove(color);
             return true;
         } else {
@@ -130,7 +126,7 @@ public class TeamHandler {
     /**
      * Gets team with specified name
      * @param name
-     * @return Team
+     * @return Team or null if team does not exist
      */
     public Team getTeam(String name) {
         for (int i = 0; i < teamList.size(); i++) {
@@ -179,6 +175,18 @@ public class TeamHandler {
             returnableList.add(t);
         }
         return returnableList;
+    }
+
+    /**
+     * Gets the list of team names
+     *
+     */
+    public ArrayList<String> getTeamNames() {
+        ArrayList<String> teamNames = new ArrayList<>();
+        for(Team t:getTeams()) {
+            teamNames.add(t.getTeamName());
+        }
+        return teamNames;
     }
 
     /**
@@ -232,5 +240,81 @@ public class TeamHandler {
             s += teamList.get(i).toString() + "\n";
         }
         return s;
+    }
+
+    /**
+     * Overwrites teams with the inputted list of teams
+     * @param teams
+     */
+    public void writeTeams(List<Team> teams) {
+        teamList = new ArrayList<>(teams);
+        colors = new ArrayList<>(List.of("§2", "§3", "§5", "§6", "§7", "§8", "§9", "§a", "§b", "§c", "§d", "§e"));
+
+        for(Team t:teams){
+            colors.remove(t.getColor());
+        }
+    }
+
+    /**
+     *
+     * @return list of unused colors
+     */
+    public ArrayList<String> getColors() {
+        return new ArrayList<>(colors);
+    }
+
+    /**
+     * Takes the colors and converts them to a list in plain text
+     * @param allColors - return list of all colors or only available ones
+     * @return list of colors
+     */
+    public ArrayList<String> getColorStrings(boolean allColors) {
+        ArrayList<String> colorStrings = new ArrayList<>();
+        if(allColors) {
+            String[] colors = {"dark_green", "dark_aqua", "dark_purple", "gold", "gray",
+                    "dark_gray", "blue", "green", "aqua", "red", "light_purple", "yellow"};
+            colorStrings = new ArrayList<>(List.of(colors));
+        } else {
+            for(String color:colors){
+                switch (color) {
+                    case "§2": colorStrings.add("dark_green"); break;
+                    case "§3": colorStrings.add("dark_aqua"); break;
+                    case "§5": colorStrings.add("dark_purple"); break;
+                    case "§6": colorStrings.add("gold"); break;
+                    case "§7": colorStrings.add("gray"); break;
+                    case "§8": colorStrings.add("dark_gray"); break;
+                    case "§9": colorStrings.add("blue"); break;
+                    case "§a": colorStrings.add("green"); break;
+                    case "§b": colorStrings.add("aqua"); break;
+                    case "§c": colorStrings.add("red"); break;
+                    case "§d": colorStrings.add("light_purple"); break;
+                    case "§e": colorStrings.add("yellow"); break;
+                    default: colorStrings.add("white");
+
+                }
+            }
+        }
+
+        return colorStrings;
+    }
+
+    public String convertColorString(String colorString) {
+        String lowercaseColor = colorString.toLowerCase();
+        switch (lowercaseColor) {
+            case "dark_green": return "§2";
+            case "dark_aqua": return "§3";
+            case "dark_purple": return "§5";
+            case "gold": return "§6";
+            case "gray": return "§7";
+            case "dark_gray": return "§8";
+            case "blue": return "§9";
+            case "green": return "§a";
+            case "aqua": return "§b";
+            case "red": return "§c";
+            case "light_purple": return "§d";
+            case "yellow": return "§e";
+            default: return "§f";
+
+        }
     }
 }

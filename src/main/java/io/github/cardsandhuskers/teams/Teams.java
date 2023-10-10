@@ -1,8 +1,6 @@
 package io.github.cardsandhuskers.teams;
 
-import io.github.cardsandhuskers.teams.commands.LockTeamsCommand;
-import io.github.cardsandhuskers.teams.commands.TeamCommand;
-import io.github.cardsandhuskers.teams.commands.UnlockTeamsCommand;
+import io.github.cardsandhuskers.teams.commands.*;
 import io.github.cardsandhuskers.teams.handlers.TeamHandler;
 import io.github.cardsandhuskers.teams.listeners.InventoryCloseListener;
 import io.github.cardsandhuskers.teams.listeners.PlayerLeaveListener;
@@ -15,10 +13,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 
 public final class Teams extends JavaPlugin {
+    /**
+     * @deprecated - this will soon be removed, use TeamHandler.getInstance()
+     */
     public static TeamHandler handler;
 
     public static boolean teamsLocked = false;
@@ -51,14 +51,20 @@ public final class Teams extends JavaPlugin {
              * We inform about the fact that PlaceholderAPI isn't installed and then
              * disable this plugin to prevent issues.
              */
-            System.out.println("Could not find PlaceholderAPI! This plugin is required.");
-            Bukkit.getPluginManager().disablePlugin(this);
+            System.out.println("Could not find PlaceholderAPI!");
+            //Bukkit.getPluginManager().disablePlugin(this);
         }
 
-        handler = new TeamHandler();
-        getCommand("teamMenu").setExecutor(new TeamCommand(handler, ppAPI));
+        getConfig().options().copyDefaults();
+        saveDefaultConfig();
+
+        handler = TeamHandler.getInstance();
+
+        getCommand("teamMenu").setExecutor(new TeamMenuCommand(handler, ppAPI));
         getCommand("lockTeams").setExecutor(new LockTeamsCommand());
         getCommand("unlockTeams").setExecutor(new UnlockTeamsCommand());
+        getCommand("teams").setExecutor(new TeamCommand(this));
+
         getServer().getPluginManager().registerEvents(new TeamMenuListener(this), this);
         getServer().getPluginManager().registerEvents(new InventoryCloseListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerLeaveListener(this), this);
@@ -72,6 +78,7 @@ public final class Teams extends JavaPlugin {
             // Do stuff with the API here
 
         } else {
+            getLogger().severe("Player Points API is required for this plugin to work!");
             Bukkit.getPluginManager().disablePlugin(this);
         }
 
