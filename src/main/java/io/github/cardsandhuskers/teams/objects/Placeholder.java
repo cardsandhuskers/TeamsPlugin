@@ -1,6 +1,7 @@
 package io.github.cardsandhuskers.teams.objects;
 
 import io.github.cardsandhuskers.teams.Teams;
+import io.github.cardsandhuskers.teams.handlers.TeamHandler;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.black_ixx.playerpoints.models.SortedPlayer;
 import org.bukkit.Bukkit;
@@ -42,6 +43,7 @@ public class Placeholder extends PlaceholderExpansion {
 
     @Override
     public String onRequest(OfflinePlayer p, String s) {
+        TeamHandler handler = TeamHandler.getInstance();
 
         if(s.equalsIgnoreCase("teamPoints")) {
             if(handler.getPlayerTeam((Player) p)!= null) {
