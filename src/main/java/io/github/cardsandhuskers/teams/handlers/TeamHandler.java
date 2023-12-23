@@ -1,6 +1,7 @@
 package io.github.cardsandhuskers.teams.handlers;
 
 import io.github.cardsandhuskers.teams.objects.Team;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.Array;
@@ -252,6 +253,7 @@ public class TeamHandler {
 
         for(Team t:teams){
             colors.remove(t.getColor());
+            t.resetTempPoints();
         }
     }
 
