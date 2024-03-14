@@ -381,14 +381,6 @@ public class Team {
     @JsonIgnore
     public TempPointsHolder getPlayerTempPoints(OfflinePlayer p) {
         if(p == null) return null;
-        /*
-        for(TempPointsHolder h:tempPointsList) {
-            if(h.getPlayer() != null && p.getPlayer() != null) {
-                if(h.getPlayer().equals(p)) {
-                    return h;
-                }
-            }
-        }*/
         for(TempPointsHolder h:tempPointsList) {
             if(h.getUUID().equals(p.getUniqueId())) {
                 return h;

@@ -1,9 +1,5 @@
 package io.github.cardsandhuskers.teams.commands;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.exc.StreamReadException;
-import com.fasterxml.jackson.databind.DatabindException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.type.CollectionType;
@@ -13,7 +9,6 @@ import io.github.cardsandhuskers.teams.handlers.TeamHandler;
 import io.github.cardsandhuskers.teams.objects.Team;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -49,11 +44,37 @@ public class TeamCommand implements TabExecutor {
                     "\nsetColor [teamName] [color]" +
                     "\nsave" +
                     "\nload");
+            return true;
         } else if (args.length == 0){
             sender.sendMessage("Usage: " +
                     "\njoin [teamName]" +
                     "\nleave");
+            return true;
         }
+
+        ArrayList<String> newArgs = new ArrayList<>();
+        for(int i = 0; i < args.length; i++) {
+            if(args[i].length() > 0 && args[i].charAt(0) == '"') {
+
+                boolean endFound = false;
+                String combinedArg = "";
+
+                for(int j = i; j < args.length; j++) {
+                    combinedArg+= args[j] + " ";
+                    if(args[j].length() >= 2 && args[j].charAt(args[j].length()-1) == '"') {
+                        //endpoint has been reached
+                        endFound = true;
+                        combinedArg = combinedArg.substring(1, combinedArg.length()-2);
+                        newArgs.add(combinedArg);
+                        i = j;
+                        break;
+                    }
+                }
+            } else {
+                newArgs.add(args[i]);
+            }
+        }
+        args = newArgs.toArray(new String[0]);
 
         //{"Add", "Remove", "AddPlayer", "RemovePlayer", "Join", "Leave", "SetColor"}
         TeamHandler handler = TeamHandler.getInstance();
@@ -64,8 +85,27 @@ public class TeamCommand implements TabExecutor {
         else if(args[0].equalsIgnoreCase("Join") && sender instanceof Player) return join(sender, args);
         else if(args[0].equalsIgnoreCase("Leave") && sender instanceof Player) return leave(sender, args);
         else if(args[0].equalsIgnoreCase("SetColor") && (!(sender instanceof Player) || sender.isOp())) return setColor(sender, args);
-        else if(args[0].equalsIgnoreCase("save") && (!(sender instanceof Player) || sender.isOp())) return saveTeams();
-        else if(args[0].equalsIgnoreCase("load") && (!(sender instanceof Player) || sender.isOp())) return loadTeams();
+        else if(args[0].equalsIgnoreCase("save") && (!(sender instanceof Player) || sender.isOp())) return saveTeams(sender);
+        else if(args[0].equalsIgnoreCase("load") && (!(sender instanceof Player) || sender.isOp())) return loadTeams(sender);
+        else if(args[0].equalsIgnoreCase("help") && (!(sender instanceof Player) || sender.isOp())) {
+            sender.sendMessage("Usage: " +
+                    "\n/teams add [teamName] [color]" +
+                    "\n/teams remove [teamName]" +
+                    "\n/teams addPlayer [teamName] [player]" +
+                    "\nremovePlayer [player]" +
+                    "\njoin [teamName]" +
+                    "\nleave" +
+                    "\nsetColor [teamName] [color]" +
+                    "\nsave" +
+                    "\nload");
+            return true;
+        }
+        else if(args[0].equalsIgnoreCase("help") && sender instanceof Player) {
+            sender.sendMessage("Usage: " +
+                    "\njoin [teamName]" +
+                    "\nleave");
+            return true;
+        }
         else {
             //invalid usage or argument type
             sender.sendMessage(ChatColor.RED + "ERROR: Invalid Usage");
@@ -78,7 +118,32 @@ public class TeamCommand implements TabExecutor {
     @Nullable
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        System.out.println("TAB");
         TeamHandler handler = TeamHandler.getInstance();
+        ArrayList<String> newArgs = new ArrayList<>();
+        for(int i = 0; i < args.length; i++) {
+            if(args[i].length() > 0 && args[i].charAt(0) == '"') {
+
+                boolean endFound = false;
+                String combinedArg = "";
+
+                for(int j = i; j < args.length; j++) {
+                    combinedArg+= args[j] + " ";
+                    if(args[j].length() >= 2 && args[j].charAt(args[j].length()-1) == '"') {
+                        //endpoint has been reached
+                        endFound = true;
+                        combinedArg = combinedArg.substring(1, combinedArg.length()-2);
+                        newArgs.add(combinedArg);
+                        i = j;
+                        break;
+                    }
+                }
+            } else {
+                newArgs.add(args[i]);
+            }
+        }
+
+        args = newArgs.toArray(new String[0]);
 
         if(args.length == 1) {
             if (sender instanceof Player p && p.isOp()) {
@@ -276,7 +341,7 @@ public class TeamCommand implements TabExecutor {
         return true;
 
     }
-    private boolean saveTeams() {
+    private boolean saveTeams(CommandSender sender) {
 
         File file = new File(plugin.getDataFolder().getAbsolutePath() + "/teams.json");
         ObjectMapper objectMapper = new ObjectMapper();
@@ -287,14 +352,16 @@ public class TeamCommand implements TabExecutor {
                 teams.add(objectMapper.writeValueAsString(t));
             }
             objectMapper.writeValue(file, teams);
+            sender.sendMessage(ChatColor.GREEN + "Teams have been successfully saved");
+
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            sender.sendMessage(ChatColor.RED + "Error Saving Teams");
         }
 
         return false;
     }
 
-    private boolean loadTeams() {
+    private boolean loadTeams(CommandSender sender) {
         try {
             File file = new File(plugin.getDataFolder().getAbsolutePath() + "/teams.json");
             ObjectMapper objectMapper = new ObjectMapper();
@@ -312,8 +379,10 @@ public class TeamCommand implements TabExecutor {
             }
 
             TeamHandler.getInstance().writeTeams(teams);
+            sender.sendMessage(ChatColor.GREEN + "Teams have been successfully loaded");
+
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            sender.sendMessage(ChatColor.RED + "Error Loading Teams");
         }
 
         return false;

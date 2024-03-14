@@ -20,7 +20,6 @@ public final class Teams extends JavaPlugin {
      * @deprecated - this will soon be removed, use TeamHandler.getInstance()
      */
     public static TeamHandler handler;
-
     public static boolean teamsLocked = false;
     public static ArrayList<Menu> menuList;
 
@@ -33,9 +32,9 @@ public final class Teams extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
         if (Bukkit.getPluginManager().isPluginEnabled("PlayerPoints")) {
-            this.ppAPI = PlayerPoints.getInstance().getAPI();
+            ppAPI = PlayerPoints.getInstance().getAPI();
         } else {
-            System.out.println("PLAYER POINTS API IS NULL");
+            getLogger().severe("Player Points API is required for this plugin to work!");
             Bukkit.getPluginManager().disablePlugin(this);
         }
 
@@ -70,18 +69,6 @@ public final class Teams extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerLeaveListener(this), this);
 
         menuList = new ArrayList<>();
-
-
-
-        // When you want to access the API, check if the instance is null
-        if (this.ppAPI != null) {
-            // Do stuff with the API here
-
-        } else {
-            getLogger().severe("Player Points API is required for this plugin to work!");
-            Bukkit.getPluginManager().disablePlugin(this);
-        }
-
 
     }
 
