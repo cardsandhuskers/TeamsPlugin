@@ -11,14 +11,7 @@ import static io.github.cardsandhuskers.teams.Teams.*;
 
 public class TablistHandler {
 
-
-    public TablistHandler() {
-
-    }
-
-
-
-    public void buildTablist() {
+    public static void buildTablist() {
         /*
         TabAPI tabAPI = TabAPI.getInstance();
         TeamManager teamManager = tabAPI.getTeamManager();

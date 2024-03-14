@@ -8,7 +8,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import static io.github.cardsandhuskers.teams.Teams.menuList;
+import static io.github.cardsandhuskers.teams.Teams.playerMenus;
 import static io.github.cardsandhuskers.teams.Teams.teamsLocked;
 
 public class TeamMenuCommand implements CommandExecutor {
@@ -21,16 +21,20 @@ public class TeamMenuCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player p = (Player) sender;
         if (!teamsLocked || p.isOp()) {
-            Menu m = new Menu(p);
-            m.generateMenu(p);
-            menuList.add(m);
+            /*
+            */
+            if(!playerMenus.containsKey(p)) {
+                Menu m = new Menu(p);
+                m.generateMenu();
+                playerMenus.put(p, m);
+            } else {
+                playerMenus.get(p).generateMenu();
+            }
+
+
         } else {
             p.sendMessage("Teams are locked. You are no longer allowed to make changes.");
         }
-
-
-
-
 
         return false;
     }
