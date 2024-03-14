@@ -18,15 +18,13 @@ public class Menu {
     private TeamHandler handler = Teams.handler;
     private Inventory inv;
     public Player player;
-    TablistHandler tablistHandler;
 
     public Menu(Player p) {
         player = p;
-        tablistHandler = new TablistHandler();
 
     }
-    public void generateMenu(Player p) {
-        inv = Bukkit.createInventory(p, 27, ChatColor.AQUA + "Team Menu");
+    public void generateMenu() {
+        inv = Bukkit.createInventory(player, 27, ChatColor.AQUA + "Team Menu");
 
         populateTeams();
 
@@ -52,7 +50,7 @@ public class Menu {
         inv.setItem(24, readyItem);
 
 
-        p.openInventory(inv);
+        player.openInventory(inv);
     }
 
     public void populateTeams() {
@@ -135,7 +133,7 @@ public class Menu {
                 inv.setItem(i, teamStack.get(i));
 
             }
-            tablistHandler.buildTablist();
+            TablistHandler.buildTablist();
         }
     }
 

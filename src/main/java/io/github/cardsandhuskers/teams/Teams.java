@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public final class Teams extends JavaPlugin {
     /**
@@ -22,7 +23,7 @@ public final class Teams extends JavaPlugin {
     public static TeamHandler handler;
 
     public static boolean teamsLocked = false;
-    public static ArrayList<Menu> menuList;
+    public static HashMap<Player, Menu> playerMenus;
 
     //public static ArrayList<ServerPlayer> teamListArray = new ArrayList<>();
     public static ArrayList<Player> openColorInvs = new ArrayList<>();
@@ -69,7 +70,7 @@ public final class Teams extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new InventoryCloseListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerLeaveListener(this), this);
 
-        menuList = new ArrayList<>();
+        playerMenus = new HashMap<>();
 
 
 

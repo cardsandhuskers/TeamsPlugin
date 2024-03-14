@@ -2,7 +2,6 @@ package io.github.cardsandhuskers.teams.listeners;
 
 import io.github.cardsandhuskers.teams.handlers.TablistHandler;
 import io.github.cardsandhuskers.teams.objects.Menu;
-import org.black_ixx.playerpoints.PlayerPointsAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.HumanEntity;
@@ -14,17 +13,15 @@ import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
 
-import static io.github.cardsandhuskers.teams.Teams.menuList;
+import static io.github.cardsandhuskers.teams.Teams.playerMenus;
 import static io.github.cardsandhuskers.teams.Teams.openColorInvs;
 
 
 public class InventoryCloseListener implements Listener {
-    private TablistHandler tablistHandler;
     Plugin plugin;
 
     public InventoryCloseListener(Plugin plugin) {
         this.plugin = plugin;
-        tablistHandler = new TablistHandler();
     }
 
     @EventHandler
@@ -32,24 +29,13 @@ public class InventoryCloseListener implements Listener {
         if(e.getView().getTitle().equalsIgnoreCase(ChatColor.stripColor("team menu")) || e.getView().getTitle().equalsIgnoreCase(ChatColor.stripColor("color selection"))) {
             HumanEntity p = e.getPlayer();
             Player player = (Player)p;
-            ArrayList<Menu> tempMenuList = new ArrayList<>();
 
-            tablistHandler.buildTablist();
+            TablistHandler.buildTablist();
 
-            for (Menu m : menuList) {
-                m.populateTeams();
+            for (Menu m:playerMenus.values()) {
+
             }
-            //tablistHandler.buildTabList(player);
 
-            for(Menu m: menuList) {
-                if(m.player.equals(player)) {
-                    tempMenuList.add(m);
-
-                }
-            }
-            for(Menu m:tempMenuList) {
-                menuList.remove(m);
-            }
             if(player.getOpenInventory() == null) {
                 Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, ()-> {
                     if(openColorInvs.contains(player)) {

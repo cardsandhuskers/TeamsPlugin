@@ -16,10 +16,9 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
-import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static io.github.cardsandhuskers.teams.Teams.menuList;
+import static io.github.cardsandhuskers.teams.Teams.playerMenus;
 import static io.github.cardsandhuskers.teams.Teams.openColorInvs;
 
 
@@ -112,7 +111,7 @@ public class TeamMenuListener implements Listener {
                 }
             }
 
-            for (Menu m : menuList) {
+            for (Menu m : playerMenus) {
                 m.populateTeams();
             }
             e.setCancelled(true);
