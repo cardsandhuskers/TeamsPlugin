@@ -38,7 +38,6 @@ public class TeamMenuListener implements Listener {
         //System.out.println(invName);
 
         if (ChatColor.stripColor(invName).equalsIgnoreCase("Team Menu")) {
-            //System.out.println("TEST");
             HumanEntity p = e.getWhoClicked();
             Player player = (Player) p;
             if (e.getCurrentItem() == null) {
@@ -75,8 +74,12 @@ public class TeamMenuListener implements Listener {
                             }
 
 
-                            if (result.get() == true) {
+                            if (result.get()) {
                                 handler.addPlayer(player, teamName);
+                                for (Menu m : playerMenus.values()) {
+                                    if(m.isOpen()) m.populateTeams();
+                                    m.populateTeams();
+                                }
 
                             } else {
                                 player.sendMessage("Could not Create Team");
@@ -88,6 +91,7 @@ public class TeamMenuListener implements Listener {
                         .title("Enter Team Name:")                                       //set the title of the GUI (only works in 1.14+)
                         .plugin(plugin)                                          //set the plugin instance
                         .open(player);                                                   //opens the GUI for the player provided
+
             }
 
             if (e.getCurrentItem().getType() == Material.BARRIER) {
@@ -98,6 +102,8 @@ public class TeamMenuListener implements Listener {
                             openColorSelector(player2, false);
                         }
                     }
+
+
                 } else {
                     p.sendMessage(ChatColor.RED + "ERROR: You are not on a team");
                 }
@@ -111,9 +117,10 @@ public class TeamMenuListener implements Listener {
                 }
             }
 
-            for (Menu m : playerMenus) {
-                m.populateTeams();
+            for (Menu m : playerMenus.values()) {
+                if(m.isOpen()) m.populateTeams();
             }
+
             e.setCancelled(true);
         }
         if (ChatColor.stripColor(invName).equalsIgnoreCase("Color Selection")) {
@@ -128,6 +135,10 @@ public class TeamMenuListener implements Listener {
                     for(Player player:openColorInvs) {
                         openColorSelector(player, false);
                     }
+                }
+
+                for (Menu m : playerMenus.values()) {
+                    if(m.isOpen()) m.populateTeams();
                 }
             }
         }

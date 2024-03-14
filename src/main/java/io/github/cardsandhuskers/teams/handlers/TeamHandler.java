@@ -56,7 +56,8 @@ public class TeamHandler {
 
     public boolean setColor(Team t, String color) {
         if(colors.contains(color)) {
-            colors.add(t.color);
+            if(t == null) return false;
+            if(t.color != null) colors.add(t.color);
             t.setColor(color);
             colors.remove(color);
             return true;

@@ -25,6 +25,7 @@ public class TeamMenuCommand implements CommandExecutor {
             */
             if(!playerMenus.containsKey(p)) {
                 Menu m = new Menu(p);
+                m.open();
                 m.generateMenu();
                 playerMenus.put(p, m);
             } else {

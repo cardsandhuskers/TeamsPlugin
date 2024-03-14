@@ -18,6 +18,7 @@ public class Menu {
     private TeamHandler handler = Teams.handler;
     private Inventory inv;
     public Player player;
+    private boolean open = false;
 
     public Menu(Player p) {
         player = p;
@@ -54,6 +55,8 @@ public class Menu {
     }
 
     public void populateTeams() {
+        System.out.println("Populating " + player.getName());
+
         boolean isReady;
         if(handler.getPlayerTeam(player) != null) {
             isReady = handler.getPlayerTeam(player).isReady();
@@ -133,8 +136,18 @@ public class Menu {
                 inv.setItem(i, teamStack.get(i));
 
             }
-            TablistHandler.buildTablist();
         }
+    }
+
+    public synchronized void open() {
+        open = true;
+    }
+    public synchronized void close() {
+        open = false;
+    }
+
+    public boolean isOpen() {
+        return open;
     }
 
 }

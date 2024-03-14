@@ -26,15 +26,14 @@ public class InventoryCloseListener implements Listener {
 
     @EventHandler
     public void onMenuClose(InventoryCloseEvent e) {
-        if(e.getView().getTitle().equalsIgnoreCase(ChatColor.stripColor("team menu")) || e.getView().getTitle().equalsIgnoreCase(ChatColor.stripColor("color selection"))) {
+        if(e.getView().getTitle().equalsIgnoreCase(ChatColor.stripColor("team menu"))) {
             HumanEntity p = e.getPlayer();
             Player player = (Player)p;
 
             TablistHandler.buildTablist();
 
-            for (Menu m:playerMenus.values()) {
-
-            }
+            Menu m = playerMenus.get(p);
+            if(m != null) m.close();
 
             if(player.getOpenInventory() == null) {
                 Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, ()-> {
@@ -43,6 +42,10 @@ public class InventoryCloseListener implements Listener {
                     }
                 }, 1L);
             }
+        } else if (e.getView().getTitle().equalsIgnoreCase(ChatColor.stripColor("color selection"))) {
+            /*for (Menu m : playerMenus.values()) {
+                if(m.isOpen()) m.populateTeams();
+            }*/
         }
 
     }
