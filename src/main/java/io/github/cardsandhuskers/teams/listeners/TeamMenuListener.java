@@ -1,6 +1,7 @@
 package io.github.cardsandhuskers.teams.listeners;
 
 import io.github.cardsandhuskers.teams.Teams;
+import io.github.cardsandhuskers.teams.handlers.TablistHandler;
 import io.github.cardsandhuskers.teams.handlers.TeamHandler;
 import io.github.cardsandhuskers.teams.objects.Menu;
 import net.wesjd.anvilgui.AnvilGUI;
@@ -80,6 +81,7 @@ public class TeamMenuListener implements Listener {
                                     if(m.isOpen()) m.populateTeams();
                                     m.populateTeams();
                                 }
+                                TablistHandler.buildTablist();
 
                             } else {
                                 player.sendMessage("Could not Create Team");
@@ -120,6 +122,7 @@ public class TeamMenuListener implements Listener {
             for (Menu m : playerMenus.values()) {
                 if(m.isOpen()) m.populateTeams();
             }
+            TablistHandler.buildTablist();
 
             e.setCancelled(true);
         }
@@ -140,6 +143,7 @@ public class TeamMenuListener implements Listener {
                 for (Menu m : playerMenus.values()) {
                     if(m.isOpen()) m.populateTeams();
                 }
+                TablistHandler.buildTablist();
             }
         }
     }

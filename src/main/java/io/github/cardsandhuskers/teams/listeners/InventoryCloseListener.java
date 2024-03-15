@@ -46,6 +46,7 @@ public class InventoryCloseListener implements Listener {
             /*for (Menu m : playerMenus.values()) {
                 if(m.isOpen()) m.populateTeams();
             }*/
+            TablistHandler.buildTablist();
         }
 
     }

@@ -3,6 +3,7 @@ package io.github.cardsandhuskers.teams;
 import io.github.cardsandhuskers.teams.commands.*;
 import io.github.cardsandhuskers.teams.handlers.TeamHandler;
 import io.github.cardsandhuskers.teams.listeners.InventoryCloseListener;
+import io.github.cardsandhuskers.teams.listeners.PlayerChatListener;
 import io.github.cardsandhuskers.teams.listeners.PlayerLeaveListener;
 import io.github.cardsandhuskers.teams.listeners.TeamMenuListener;
 import io.github.cardsandhuskers.teams.objects.Menu;
@@ -68,6 +69,7 @@ public final class Teams extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new TeamMenuListener(this), this);
         getServer().getPluginManager().registerEvents(new InventoryCloseListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerLeaveListener(this), this);
+        getServer().getPluginManager().registerEvents(new PlayerChatListener(), this);
 
         playerMenus = new HashMap<>();
 

@@ -12,19 +12,16 @@ import static io.github.cardsandhuskers.teams.Teams.*;
 public class TablistHandler {
 
     public static void buildTablist() {
-        /*
-        TabAPI tabAPI = TabAPI.getInstance();
-        TeamManager teamManager = tabAPI.getTeamManager();
-        HeaderFooterManager headerManager = tabAPI.getHeaderFooterManager();
-
-         */
+        System.out.println("BUILDING TAB LIST");
 
         Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
         for(org.bukkit.scoreboard.Team t:scoreboard.getTeams()) {
             t.unregister();
         }
 
-        for(Team t: handler.getTeams()) {
+        for(Team t: TeamHandler.getInstance().getTeams()) {
+            System.out.println(t.getTeamName());
+
             org.bukkit.scoreboard.Team team = scoreboard.registerNewTeam(t.getTeamName());
             team.setColor(t.getChatColor());
             team.setAllowFriendlyFire(false);
@@ -35,31 +32,4 @@ public class TablistHandler {
         }
 
     }
-
-
-    /*
-    public void buildTabListOLD(Player player) {
-
-        CraftPlayer craftPlayer = (CraftPlayer) player;
-        ServerPlayer serverPlayer = craftPlayer.getHandle();
-
-        MinecraftServer server = serverPlayer.getServer();
-        ServerLevel level = serverPlayer.getLevel(); //level = world
-
-
-        //Remove Fake Players
-        for (ServerPlayer fakeP : teamListArray) {
-            for(Player p:Bukkit.getOnlinePlayers()) {
-
-                CraftPlayer craftP = (CraftPlayer) p;
-                ServerPlayer sp = craftP.getHandle();
-
-                ServerGamePacketListenerImpl packetListener = sp.connection;
-                packetListener.send(new ClientboundPlayerInfoPacket(ClientboundPlayerInfoPacket.Action.REMOVE_PLAYER, fakeP));
-            }
-        }
-        teamListArray.clear();
-
-
-    }*/
 }
