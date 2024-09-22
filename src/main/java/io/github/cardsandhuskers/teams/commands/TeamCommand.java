@@ -175,7 +175,7 @@ public class TeamCommand implements TabExecutor {
                     quotedTeams.add("\"" + item + "\"");
                 }
                 String arg = args[1];
-                if(arg.charAt(0) != '\"') arg = "\"" + arg;
+                if(!arg.isEmpty() && arg.charAt(0) != '\"') arg = "\"" + arg;
 
                 if(!arg.equals("\"")) {
                     String finalArg = arg;

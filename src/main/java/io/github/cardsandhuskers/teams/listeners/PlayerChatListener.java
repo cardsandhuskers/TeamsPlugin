@@ -20,11 +20,14 @@ public class PlayerChatListener implements Listener {
         Team senderTeam = TeamHandler.getInstance().getPlayerTeam(sender);
 
         String newMessage = "<";
+
         if(senderTeam != null) {
             newMessage += "[" + senderTeam.getColor() +
                     senderTeam.getTeamName().substring(0, Math.min(4, senderTeam.getTeamName().length())) +
                     ChatColor.RESET + "] " + senderTeam.getColor() + sender.getName() + ChatColor.RESET + "> " + message;
 
+        } else {
+            newMessage += sender.getName() + "> " + message;
         }
 
         Bukkit.broadcastMessage(newMessage);
