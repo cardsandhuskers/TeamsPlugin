@@ -20,6 +20,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static io.github.cardsandhuskers.teams.Teams.teamsLocked;
 
@@ -118,7 +119,6 @@ public class TeamCommand implements TabExecutor {
     @Nullable
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        System.out.println("TAB");
         TeamHandler handler = TeamHandler.getInstance();
         ArrayList<String> newArgs = new ArrayList<>();
         for(int i = 0; i < args.length; i++) {
@@ -147,7 +147,17 @@ public class TeamCommand implements TabExecutor {
 
         if(args.length == 1) {
             if (sender instanceof Player p && p.isOp()) {
-                return new ArrayList<>(List.of(new String[]{"add", "remove", "addPlayer", "removePlayer", "join", "leave", "setColor", "save", "load"}));
+                ArrayList<String> options = new ArrayList<>(List.of(new String[]{"add", "remove", "addPlayer", "removePlayer", "join", "leave", "setColor", "save", "load"}));
+                @NotNull String arg = args[0];
+                if(!arg.equals("")) {
+                    List<String> filteredOptions = options.stream()
+                            .filter(option -> option.startsWith(arg)).toList();
+                    System.out.println(filteredOptions);
+                    return filteredOptions;
+                } else {
+                    return options;
+                }
+
             } else {
                 return new ArrayList<>(List.of(new String[]{"Join", "Leave"}));
             }
@@ -159,14 +169,40 @@ public class TeamCommand implements TabExecutor {
                     args[0].equalsIgnoreCase("join") ||
                     args[0].equalsIgnoreCase("setcolor")) {
 
-                return handler.getTeamNames();
+                ArrayList<String> teamNames = handler.getTeamNames();
+                List<String> quotedTeams = new ArrayList<>();
+                for (String item : teamNames) {
+                    quotedTeams.add("\"" + item + "\"");
+                }
+                String arg = args[1];
+                if(!arg.isEmpty() && arg.charAt(0) != '\"') arg = "\"" + arg;
+
+                if(!arg.equals("\"")) {
+                    String finalArg = arg;
+                    List<String> filteredTeams = quotedTeams.stream()
+                            .filter(option -> option.startsWith(finalArg)).toList();
+                    System.out.println(filteredTeams);
+                    return filteredTeams;
+
+                } else {
+                    return quotedTeams;
+                }
             }
             if(args[0].equalsIgnoreCase("removeplayer")) {
                 ArrayList<String> playerNames = new ArrayList<>();
                 for(Player p:Bukkit.getOnlinePlayers()) {
                     playerNames.add(p.getDisplayName());
                 }
-                return playerNames;
+
+                @NotNull String arg = args[1];
+                if(!arg.equals("")) {
+                    List<String> filteredNames = playerNames.stream()
+                            .filter(option -> option.startsWith(arg)).toList();
+                    System.out.println(filteredNames);
+                    return filteredNames;
+                } else {
+                    return playerNames;
+                }
             }
         }
 

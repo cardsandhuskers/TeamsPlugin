@@ -3,6 +3,7 @@ package io.github.cardsandhuskers.teams;
 import io.github.cardsandhuskers.teams.commands.*;
 import io.github.cardsandhuskers.teams.handlers.TeamHandler;
 import io.github.cardsandhuskers.teams.listeners.InventoryCloseListener;
+import io.github.cardsandhuskers.teams.listeners.PlayerChatListener;
 import io.github.cardsandhuskers.teams.listeners.PlayerLeaveListener;
 import io.github.cardsandhuskers.teams.listeners.TeamMenuListener;
 import io.github.cardsandhuskers.teams.objects.Menu;
@@ -14,14 +15,15 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public final class Teams extends JavaPlugin {
     /**
-     * @deprecated - this will soon be removed, use TeamHandler.getInstance()
+     * @Deprecated - this will soon be removed, use TeamHandler.getInstance()
      */
     public static TeamHandler handler;
     public static boolean teamsLocked = false;
-    public static ArrayList<Menu> menuList;
+    public static HashMap<Player, Menu> playerMenus;
 
     //public static ArrayList<ServerPlayer> teamListArray = new ArrayList<>();
     public static ArrayList<Player> openColorInvs = new ArrayList<>();
@@ -67,8 +69,9 @@ public final class Teams extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new TeamMenuListener(this), this);
         getServer().getPluginManager().registerEvents(new InventoryCloseListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerLeaveListener(this), this);
+        getServer().getPluginManager().registerEvents(new PlayerChatListener(), this);
 
-        menuList = new ArrayList<>();
+        playerMenus = new HashMap<>();
 
     }
 

@@ -1,7 +1,6 @@
 package io.github.cardsandhuskers.teams.objects;
 
 import io.github.cardsandhuskers.teams.Teams;
-import io.github.cardsandhuskers.teams.handlers.TablistHandler;
 import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -18,15 +17,14 @@ public class Menu {
     private TeamHandler handler = Teams.handler;
     private Inventory inv;
     public Player player;
-    TablistHandler tablistHandler;
+    private boolean open = false;
 
     public Menu(Player p) {
         player = p;
-        tablistHandler = new TablistHandler();
 
     }
-    public void generateMenu(Player p) {
-        inv = Bukkit.createInventory(p, 27, ChatColor.AQUA + "Team Menu");
+    public void generateMenu() {
+        inv = Bukkit.createInventory(player, 27, ChatColor.AQUA + "Team Menu");
 
         populateTeams();
 
@@ -52,10 +50,11 @@ public class Menu {
         inv.setItem(24, readyItem);
 
 
-        p.openInventory(inv);
+        player.openInventory(inv);
     }
 
     public void populateTeams() {
+
         boolean isReady;
         if(handler.getPlayerTeam(player) != null) {
             isReady = handler.getPlayerTeam(player).isReady();
@@ -121,10 +120,6 @@ public class Menu {
                 if(handler.getTeam(i).getPlayers().isEmpty()) {
                     teamLore.add("EMPTY");
                 } else {
-                    //loops through members of the team to add to the lore
-                    //for(int j = 0; j < handler.getTeam(i).getSize(); j++) {
-                    //    teamLore.add(ChatColor.WHITE + handler.getTeam(i).getPlayer(j).getName());
-                    //}
                     for(Player p:handler.getTeam(i).getOnlinePlayers()) {
                         teamLore.add(ChatColor.WHITE + p.getName());
                     }
@@ -135,8 +130,18 @@ public class Menu {
                 inv.setItem(i, teamStack.get(i));
 
             }
-            tablistHandler.buildTablist();
         }
+    }
+
+    public synchronized void open() {
+        open = true;
+    }
+    public synchronized void close() {
+        open = false;
+    }
+
+    public boolean isOpen() {
+        return open;
     }
 
 }
