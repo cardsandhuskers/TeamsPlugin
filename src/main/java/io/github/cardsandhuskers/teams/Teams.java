@@ -19,7 +19,7 @@ import java.util.HashMap;
 
 public final class Teams extends JavaPlugin {
     /**
-     * @deprecated - this will soon be removed, use TeamHandler.getInstance()
+     * @Deprecated - this will soon be removed, use TeamHandler.getInstance()
      */
     public static TeamHandler handler;
     public static boolean teamsLocked = false;
