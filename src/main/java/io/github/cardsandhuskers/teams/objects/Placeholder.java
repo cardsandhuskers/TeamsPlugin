@@ -25,7 +25,7 @@ public class Placeholder extends PlaceholderExpansion {
     }
     @Override
     public String getIdentifier() {
-        return "Teams";
+        return "teamsapi";
     }
     @Override
     public String getAuthor() {
