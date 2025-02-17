@@ -31,5 +31,5 @@ jobs:
         run: |
           mvn clean deploy --settings .github/settings.xml
         env:
-          GITHUB_TOKEN: ${{ secrets.MVN_TOKEN }}
+          MVN_TOKEN: ${{ secrets.MVN_TOKEN }}
           GITHUB_USERNAME: cardsandhuskers
