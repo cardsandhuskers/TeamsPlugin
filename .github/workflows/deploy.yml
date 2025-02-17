@@ -19,7 +19,7 @@ jobs:
           java-version: '21'  # Use the desired Java version
 
       - name: Cache Maven dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
@@ -31,3 +31,4 @@ jobs:
           mvn clean deploy --settings .github/settings.xml
         env:
           GITHUB_TOKEN: ${{ secrets.MVN_TOKEN }}
+          GITHUB_USERNAME: cardsandhuskers
