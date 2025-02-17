@@ -16,8 +16,8 @@ Simple Menu for Creating Teams
 - RemovePlayer [playerName] - removes player from their team (OP only)
 - AddPlayer [teamName] [playerName] - adds player to team (OP only)
 - SetColor [teamName] [color] - recolors the specified team (OP only)
-- save - saves current teams w/ players to a file
-- load - loads the teams from the file
+- save - saves current teams w/ players to a file (OP only)
+- load - loads the teams from the file (OP only)
 
 ### Dependencies:
 - PlayerPoints

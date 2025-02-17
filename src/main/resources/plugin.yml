@@ -1,9 +1,11 @@
 name: Teams
 version: '${project.version}'
 main: io.github.cardsandhuskers.teams.Teams
-api-version: 1.19
+api-version: '1.21'
 depend: [PlayerPoints]
 softdepend: [PlaceholderAPI]
+authors: [ cardsandhuskers ]
+description: Teams manager
 commands:
   teamMenu:
     description: opens the team menu

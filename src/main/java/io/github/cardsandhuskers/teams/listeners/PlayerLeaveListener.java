@@ -18,7 +18,7 @@ public class PlayerLeaveListener implements Listener {
 
     @EventHandler
     public void onPlayerLeave(PlayerQuitEvent e) {
-        Player p = e.getPlayer();
+        /*Player p = e.getPlayer();
         if(handler.getPlayerTeam(p) != null) {
             Team t = handler.getPlayerTeam(p);
             Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
@@ -26,6 +26,6 @@ public class PlayerLeaveListener implements Listener {
                     handler.deleteTeam(t);
                 }
             }, 10L);
-        }
+        }*/
     }
 }

@@ -35,21 +35,23 @@ public class TeamCommand implements TabExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if(args.length == 0 && (!(sender instanceof Player) || sender.isOp())) {
 
-            sender.sendMessage("Usage: " +
-                    "\n/teams add [teamName] [color]" +
-                    "\n/teams remove [teamName]" +
-                    "\n/teams addPlayer [teamName] [player]" +
-                    "\nremovePlayer [player]" +
-                    "\njoin [teamName]" +
-                    "\nleave" +
-                    "\nsetColor [teamName] [color]" +
-                    "\nsave" +
-                    "\nload");
+            sender.sendMessage("""
+                    Usage:\s
+                    /teams add [teamName] [color]
+                    /teams remove [teamName]
+                    /teams addPlayer [teamName] [player]
+                    removePlayer [player]
+                    join [teamName]
+                    leave
+                    setColor [teamName] [color]
+                    save
+                    load""");
             return true;
         } else if (args.length == 0){
-            sender.sendMessage("Usage: " +
-                    "\njoin [teamName]" +
-                    "\nleave");
+            sender.sendMessage("""
+                    Usage:\s
+                    join [teamName]
+                    leave""");
             return true;
         }
 
@@ -89,22 +91,24 @@ public class TeamCommand implements TabExecutor {
         else if(args[0].equalsIgnoreCase("save") && (!(sender instanceof Player) || sender.isOp())) return saveTeams(sender);
         else if(args[0].equalsIgnoreCase("load") && (!(sender instanceof Player) || sender.isOp())) return loadTeams(sender);
         else if(args[0].equalsIgnoreCase("help") && (!(sender instanceof Player) || sender.isOp())) {
-            sender.sendMessage("Usage: " +
-                    "\n/teams add [teamName] [color]" +
-                    "\n/teams remove [teamName]" +
-                    "\n/teams addPlayer [teamName] [player]" +
-                    "\nremovePlayer [player]" +
-                    "\njoin [teamName]" +
-                    "\nleave" +
-                    "\nsetColor [teamName] [color]" +
-                    "\nsave" +
-                    "\nload");
+            sender.sendMessage("""
+                    Usage:\s
+                    /teams add [teamName] [color]
+                    /teams remove [teamName]
+                    /teams addPlayer [teamName] [player]
+                    removePlayer [player]
+                    join [teamName]
+                    leave
+                    setColor [teamName] [color]
+                    save
+                    load""");
             return true;
         }
         else if(args[0].equalsIgnoreCase("help") && sender instanceof Player) {
-            sender.sendMessage("Usage: " +
-                    "\njoin [teamName]" +
-                    "\nleave");
+            sender.sendMessage("""
+                    Usage:\s
+                    join [teamName]
+                    leave""");
             return true;
         }
         else {
@@ -195,10 +199,9 @@ public class TeamCommand implements TabExecutor {
                 }
 
                 @NotNull String arg = args[1];
-                if(!arg.equals("")) {
+                if(!arg.isEmpty()) {
                     List<String> filteredNames = playerNames.stream()
                             .filter(option -> option.startsWith(arg)).toList();
-                    System.out.println(filteredNames);
                     return filteredNames;
                 } else {
                     return playerNames;

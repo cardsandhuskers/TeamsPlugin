@@ -25,7 +25,7 @@ public class Placeholder extends PlaceholderExpansion {
     }
     @Override
     public String getIdentifier() {
-        return "teamsapi";
+        return "teams";
     }
     @Override
     public String getAuthor() {
@@ -48,6 +48,14 @@ public class Placeholder extends PlaceholderExpansion {
         if(s.equalsIgnoreCase("teamPoints")) {
             if(handler.getPlayerTeam((Player) p)!= null) {
                 return "" + handler.getTeamPoints(handler.getPlayerTeam((Player) p));
+            } else {
+                return "";
+            }
+        }
+
+        if(s.equalsIgnoreCase("tempPoints")) {
+            if(handler.getPlayerTeam((Player) p)!= null) {
+                return "" + handler.getPlayerTeam((Player) p).getPlayerTempPointsValue(p);
             } else {
                 return "";
             }
