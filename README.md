@@ -19,12 +19,28 @@ Simple Menu for Creating Teams
 - save - saves current teams w/ players to a file (OP only)
 - load - loads the teams from the file (OP only)
 
+
+### Using this library:
+Simply include the below repository and dependency in your pom.xml
+```
+<repository>
+    <id>github</id>
+    <url>https://maven.pkg.github.com/cardsandhuskers/TeamsPlugin</url>
+</repository>
+        
+<dependency>
+  <groupId>io.github.cardsandhuskers</groupId>
+  <artifactId>teams</artifactId>
+  <version>1.1.1</version>
+</dependency>
+```
+
 ### Dependencies:
 - PlayerPoints
 - PlaceholderAPI
 
 
-###
+### Placeholders:
  - %teamsapi_teampoints% - returns the points the requesting player's team has
  - %teamsapi_tabTeam% - returns the tab string for the player's team (team color and first 4 letters)
  - %teamsapi_team% - returns the name of the requesting player's team
