@@ -33,7 +33,7 @@ public class Placeholder extends PlaceholderExpansion {
     }
     @Override
     public String getVersion() {
-        return "1.0.0";
+        return "1.1.1";
     }
     @Override
     public boolean persist() {
@@ -58,6 +58,12 @@ public class Placeholder extends PlaceholderExpansion {
                 return "" + handler.getPlayerTeam((Player) p).getPlayerTempPointsValue(p);
             } else {
                 return "";
+            }
+        }
+
+        if(s.equalsIgnoreCase("totalPoints")) {
+            if(handler.getPlayerTeam((Player) p)!= null) {
+                return ppAPI.look(p.getUniqueId()) + (int)handler.getPlayerTeam((Player) p).getPlayerTempPointsValue(p) + "";
             }
         }
 

@@ -42,6 +42,8 @@ Simply include the below repository and dependency in your pom.xml
 
 ### Placeholders:
  - %teamsapi_teampoints% - returns the points the requesting player's team has
+ - %teamsapi_temppoints% - returns the temp points the requesting player has
+ - %teamsapi_totalpoints% - returns the total points (ppAPI points + temp ponts) the requesting player has
  - %teamsapi_tabTeam% - returns the tab string for the player's team (team color and first 4 letters)
  - %teamsapi_team% - returns the name of the requesting player's team
  - %teamsapi_color% - returns the color string for the requesting player's team
